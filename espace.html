@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mon espace · Alex</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"><link rel="icon" type="image/png" href="assets/favicon.png">
+<style>
+:root{--bg:#070a1c;--bg2:#0d1230;--card:#111742;--text:#f2f4ff;--muted:#aab1d8;--accent:#7c5cff;--accent2:#22d3ee;--line:rgba(255,255,255,.1);--r:18px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer;color:inherit}
+.grad{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border-radius:12px;border:0;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff}
+.btn.ghost{background:transparent;border:1px solid var(--line)}
+.btn.sm{padding:7px 12px;font-size:.82rem;border-radius:10px}
+/* --- connexion --- */
+#auth{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
+.auth-art{position:relative;background:url(assets/hero-fond.jpg) center/cover;display:flex;align-items:flex-end;padding:40px}
+.auth-art:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,10,28,.2),rgba(7,10,28,.9))}
+.auth-art div{position:relative;z-index:1;max-width:460px}.auth-art h1{font-size:clamp(1.8rem,3.4vw,2.8rem);line-height:1.1}
+.auth-art p{color:var(--muted);margin-top:10px}
+.auth-box{display:flex;flex-direction:column;justify-content:center;padding:40px clamp(20px,6vw,90px);gap:14px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.2rem}.logo img{width:34px;height:34px;border-radius:9px}
+.tabs{display:flex;gap:6px;background:var(--bg2);padding:5px;border-radius:12px;margin-top:10px}
+.tabs button{flex:1;padding:9px;border:0;border-radius:9px;background:transparent;font-weight:800;color:var(--muted)}
+.tabs button.on{background:var(--card);color:var(--text)}
+label{display:grid;gap:6px;font-size:.85rem;font-weight:700;color:var(--muted)}
+input{font:inherit;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--text)}
+input:focus{outline:2px solid var(--accent);border-color:transparent}
+.or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.8rem}.or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
+.gbtn{background:#fff;color:#111;border:0}
+.note{font-size:.78rem;color:var(--muted)}
+.perk{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,#22C55E 10%,transparent);border:1px solid color-mix(in srgb,#22C55E 40%,transparent);font-size:.85rem;font-weight:700}
+/* --- tableau de bord --- */
+#app{display:none;grid-template-columns:240px 1fr;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;padding:20px 14px;border-right:1px solid var(--line);background:var(--bg2);display:flex;flex-direction:column;gap:6px}
+.side .logo{padding:4px 8px 16px}
+.nav{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;font-weight:700;color:var(--muted);border:0;background:transparent;text-align:left;width:100%}
+.nav:hover{background:var(--card);color:var(--text)}.nav.on{background:var(--card);color:var(--text);box-shadow:inset 3px 0 0 var(--accent)}
+.nav img{width:22px;height:22px;object-fit:contain}
+.side .grow{flex:1}
+.vipside{padding:14px;border-radius:14px;background:linear-gradient(135deg,rgba(245,196,81,.18),rgba(124,92,255,.15));border:1px solid rgba(245,196,81,.4);font-size:.82rem}
+.vipside b{display:block;color:#F5C451;margin-bottom:4px}
+main{padding:22px clamp(16px,3vw,40px) 60px;min-width:0}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+.topbar h1{font-size:clamp(1.3rem,2.4vw,1.8rem)}
+.me{display:flex;align-items:center;gap:10px;padding:5px 12px 5px 5px;border-radius:99px;background:var(--card);border:1px solid var(--line);font-weight:800}
+.av{width:38px;height:38px;border-radius:50%;object-fit:cover;background:var(--bg2);border:2px solid var(--accent);display:grid;place-items:center;font-weight:900;overflow:hidden;flex:none}
+.av img{width:100%;height:100%;object-fit:contain}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:26px}
+.stat{padding:16px;border-radius:var(--r);background:var(--card);border:1px solid var(--line)}
+.stat b{font-size:1.6rem;display:block}.stat span{color:var(--muted);font-size:.85rem}
+h2{font-size:1.25rem;margin:4px 0 14px;display:flex;align-items:center;gap:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-bottom:30px}
+.fc{border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid color-mix(in srgb,var(--c) 40%,var(--line));display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.fc:hover{transform:translateY(-3px);box-shadow:0 12px 30px color-mix(in srgb,var(--c) 25%,transparent)}
+.fc img.ban{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.fc .fb{padding:14px;display:flex;flex-direction:column;gap:9px;flex:1}
+.fc h3{font-size:1rem}
+.bar{height:7px;border-radius:99px;background:var(--bg2);overflow:hidden}.bar i{display:block;height:100%;background:var(--c);border-radius:99px}
+.fc .meta{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);font-weight:700}
+.badge{align-self:flex-start;font-size:.68rem;font-weight:800;padding:3px 9px;border-radius:99px;background:color-mix(in srgb,var(--c) 22%,transparent);color:var(--text);border:1px solid color-mix(in srgb,var(--c) 60%,transparent)}
+.fc.locked img.ban{filter:grayscale(.55) brightness(.6)}
+.fc .fb .btn{margin-top:auto}
+.price{font-weight:900}.price s{color:var(--muted);font-weight:600;margin-left:6px;font-size:.85rem}
+.empty{padding:22px;border-radius:var(--r);border:1px dashed var(--line);color:var(--muted)}
+/* profil */
+.pcard{padding:22px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);max-width:760px}
+.pbig{display:flex;align-items:center;gap:18px;margin-bottom:18px}.pbig .av{width:84px;height:84px;font-size:1.8rem;border-width:3px}
+.avs{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:10px;margin:12px 0 18px}
+.avs button{aspect-ratio:1;border-radius:16px;border:2px solid var(--line);background:var(--bg2);padding:8px;transition:.2s}
+.avs button:hover{border-color:var(--accent)}.avs button.on{border-color:var(--accent2);box-shadow:0 0 18px rgba(34,211,238,.4)}
+.avs img{width:100%;height:100%;object-fit:contain}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--accent);padding:10px 16px;border-radius:12px;font-weight:700;display:none;z-index:9}
+.mob-nav{display:none}
+@media(max-width:900px){
+ #auth{grid-template-columns:1fr}.auth-art{min-height:220px;padding:24px}
+ #app{grid-template-columns:1fr}.side{display:none}
+ .mob-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:8;background:var(--bg2);border-top:1px solid var(--line);justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+ .mob-nav button{border:0;background:none;display:grid;justify-items:center;gap:2px;font-size:.66rem;font-weight:700;color:var(--muted);padding:4px}
+ .mob-nav button.on{color:var(--text)}.mob-nav img{width:24px;height:24px;object-fit:contain}
+ main{padding-bottom:90px}.stats{grid-template-columns:1fr 1fr 1fr;gap:8px}.stat{padding:12px}.stat b{font-size:1.2rem}
+ .row2{grid-template-columns:1fr}.me span{display:none}
+}
+/* === Polices 19/11 === */
+body{font-family:'Inter','Segoe UI',system-ui,sans-serif}
+h1,h2,h3,.logo,.big-price,.price b,.bq,.core,.vprice b,.stat b,.cb-p b,.sbtn span,.quick a,.btn,.eyebrow,.ribbon,.tile .tb b{font-family:'Plus Jakarta Sans','Inter','Segoe UI',sans-serif}
+h1,h2{letter-spacing:-.02em}
+</style></head><body>
+
+<!-- ============ CONNEXION ============ -->
+<section id="auth">
+ <div class="auth-art"><div><h1>Ton <span class="grad">univers IA</span> t'attend.</h1><p>Retrouve tes compétences, tes guides et le Cercle VIP au même endroit.</p></div></div>
+ <div class="auth-box">
+  <a class="logo" href="index.html"><img src="assets/logo-alex.png" alt="">ALEX</a>
+  <div class="tabs"><button type="button" class="on" data-tab="in">Connexion</button><button type="button" data-tab="up">Créer mon compte</button></div>
+  <form id="fauth" style="display:grid;gap:12px">
+   <label id="lprenom" style="display:none">Prénom<input name="prenom" autocomplete="given-name"></label>
+   <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
+   <label>Mot de passe<input name="mdp" type="password" required minlength="6" autocomplete="current-password"></label>
+   <button class="btn" type="submit" id="bauth">Me connecter</button>
+  </form>
+  <div class="or">ou</div>
+  <button type="button" class="btn gbtn" id="bgoogle"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Continuer avec Google</button>
+  <div class="perk"><img src="assets/icones/r-eclair.png" alt="" width="28" height="28">En créant ton compte, tu débloques tout de suite les 3 guides gratuits.</div>
+  <p class="note">Tes compétences achetées apparaissent automatiquement dans ton espace.</p>
+ </div>
+</section>
+
+<!-- ============ ESPACE ============ -->
+<div id="app">
+ <aside class="side">
+  <a class="logo" href="index.html"><img src="assets/logo-alex.png" alt="">ALEX</a>
+  <button class="nav on" data-v="home"><img src="assets/icones/c-m11.png" alt="">Accueil</button>
+  <button class="nav" data-v="mine"><img src="assets/icones/c-m01.png" alt="">Mes compétences</button>
+  <button class="nav" data-v="shop"><img src="assets/icones/c-m05.png" alt="">Découvrir</button>
+  <button class="nav" data-v="free"><img src="assets/icones/r-calques.png" alt="">Guides gratuits</button>
+  <button class="nav" data-v="profil"><img src="assets/icones/c-m03.png" alt="">Mon profil</button>
+  <div class="grow"></div>
+  <div class="vipside" id="vipside"></div>
+  <button class="nav" id="logout">↩ Déconnexion</button>
+ </aside>
+ <main>
+  <div class="topbar"><h1 id="vtitle">Bonjour</h1><button class="me" data-v="profil"><span class="av" id="avTop"></span><span id="nmTop"></span></button></div>
+  <div id="view"></div>
+ </main>
+ <nav class="mob-nav">
+  <button class="on" data-v="home"><img src="assets/icones/c-m11.png" alt="">Accueil</button>
+  <button data-v="mine"><img src="assets/icones/c-m01.png" alt="">Compétences</button>
+  <button data-v="shop"><img src="assets/icones/c-m05.png" alt="">Découvrir</button>
+  <button data-v="free"><img src="assets/icones/r-calques.png" alt="">Gratuit</button>
+  <button data-v="profil"><img src="assets/icones/c-m03.png" alt="">Profil</button>
+ </nav>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+var MODS=[{"id": "m11", "c": "#6366F1", "img": "assets/maitrise-ia.jpg", "t": "Maîtrise les IA", "d": "ChatGPT, Claude, Gemini et les autres : quelle IA pour quel usage, et comment en tirer le maximum.", "p": 47, "pn": 97}, {"id": "m01", "c": "#FF0033", "img": "assets/yt.jpg", "t": "YouTube IA", "d": "Lance une chaîne qui tourne avec l'IA : idées, scripts, voix, images, montage.", "p": 67, "pn": 147}, {"id": "m03", "c": "#FF4FD8", "img": "assets/girl.jpg", "t": "Influenceuse IA", "d": "Crée un personnage IA cohérent et fais-le présenter des produits.", "p": 97, "pn": 197}, {"id": "m07", "c": "#14B8A6", "img": "assets/studio-ia.jpg", "t": "Marketing Studio IA", "d": "Des vidéos IA pour restaurants, coiffeurs, commerces : plats, produits, avatars qui parlent.", "p": 97, "pn": 197}, {"id": "m02", "c": "#25F4EE", "img": "assets/tt.jpg", "t": "TikTok IA et contenu viral", "d": "Des vidéos qui retiennent l'attention : accroche, rythme, montage, publication régulière.", "p": 67, "pn": 147}, {"id": "m12", "c": "#F5C451", "img": "assets/cinema-ia.jpg", "t": "Cinéma IA", "d": "Courts-métrages, séries et pubs façon film : de l'idée au montage, tout avec l'IA.", "p": 97, "pn": 197}, {"id": "m06", "c": "#F97316", "img": "assets/ads-ia.jpg", "t": "Publicités IA (ads)", "d": "Créer des publicités avec l'IA et les tester sans gaspiller ton budget.", "p": 97, "pn": 197}, {"id": "m04", "c": "#FFB020", "img": "assets/box.jpg", "t": "Produits digitaux et personal brand", "d": "Crée ton guide, ta mini-formation ou ton template et vends-le avec ton visage.", "p": 67, "pn": 147}, {"id": "m08", "c": "#A855F7", "img": "assets/salaries-ia.jpg", "t": "Tes salariés IA", "d": "Crée des assistants IA qui font les tâches répétitives : pour toi, ou pour des entreprises.", "p": 97, "pn": 197}, {"id": "m13", "c": "#1DB954", "img": "assets/musique-ia.jpg", "t": "Musique IA", "d": "Compose tes morceaux avec l'IA et diffuse-les sur Spotify, Deezer, Apple Music et YouTube.", "p": 67, "pn": 147}, {"id": "m14", "c": "#3B82F6", "img": "assets/appli-ia.jpg", "t": "Crée ton appli avec l'IA", "d": "Applis mobiles et logiciels : décris ton idée, l'IA construit, tu publies.", "p": 67, "pn": 147}, {"id": "m05", "c": "#22C55E", "img": "assets/dropship.jpg", "t": "E-commerce IA", "d": "Trouver un produit, monter la boutique Shopify, créer les visuels et les vidéos avec l'IA.", "p": 97, "pn": 197}, {"id": "m09", "c": "#EAB308", "img": "assets/closing.jpg", "t": "Démarchage, closing et freelance", "d": "Trouver des clients et signer : démarchage, call de closing, et services (sites web, applications, automatisations).", "p": 97, "pn": 197}, {"id": "m10", "c": "#8B5CF6", "img": "assets/jeux-ia.jpg", "t": "Crée et monétise tes jeux avec l'IA", "d": "Jeux, maps et serveurs : crée-les avec l'IA, sans savoir coder, puis fais-les rapporter.", "p": 97, "pn": 197}];
+var FREE=[{t:"Crée ta boutique en ligne",img:"assets/guide-boutique.jpg?v=2",c:"#22C55E"},{t:"Ton premier avatar IA",img:"assets/guide-avatar.jpg?v=2",c:"#FF4FD8"},{t:"Ta première vidéo IA",img:"assets/guide-video.jpg?v=2",c:"#A855F7"}];
+var AVATARS=["c-m01","c-m02","c-m03","c-m04","c-m05","c-m06","c-m07","c-m08","c-m09","c-m10","c-m11","c-m12","c-m13","c-m14","c-vip"];
+var K="alexMembre",U=null,mode="in",sb=supabase.createClient("https://pcxwrktmspkeumwyqlji.supabase.co","sb_publishable_7x5l6JvUSfXUVvgmrz4G5A_YdZMUfRn");
+function $(q){return document.querySelector(q)}
+function save(){localStorage.setItem(K+"_"+(U&&U.id||"x"),JSON.stringify({photo:U.photo||null,progress:U.progress||{}}));if(U&&U.id&&!U.demo)sb.from("alex_profiles").upsert({id:U.id,prenom:U.prenom,avatar:U.avatar}).then(function(){})}
+function toast(t){var e=$("#toast");e.textContent=t;e.style.display="block";clearTimeout(e._t);e._t=setTimeout(function(){e.style.display="none"},2200)}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function avHTML(u){if(u.photo)return '<img src="'+u.photo+'" alt="" style="object-fit:cover">';if(u.avatar)return '<img src="assets/icones/'+u.avatar+'.png" alt="">';return esc((u.prenom||"?").charAt(0).toUpperCase())}
+/* --- connexion (démo) --- */
+document.querySelectorAll(".tabs button").forEach(function(b){b.onclick=function(){mode=b.dataset.tab;document.querySelectorAll(".tabs button").forEach(function(x){x.classList.toggle("on",x===b)});
+ $("#lprenom").style.display=mode==="up"?"grid":"none";$("#bauth").textContent=mode==="up"?"Créer mon compte":"Me connecter"}});
+function busy(b){$("#bauth").disabled=b;$("#bauth").style.opacity=b?.6:1}
+ $("#fauth").onsubmit=async function(e){e.preventDefault();var f=e.target,em=f.email.value.trim().toLowerCase(),pw=f.mdp.value,pr=f.prenom.value.trim();busy(true);try{if(mode==="up"){var r=await sb.auth.signUp({email:em,password:pw,options:{data:{prenom:pr},emailRedirectTo:location.origin+location.pathname}});if(r.error)throw r.error;if(!r.data.session){toast("Compte créé : clique sur le lien reçu par e-mail pour l’activer");busy(false);return}}else{var r2=await sb.auth.signInWithPassword({email:em,password:pw});if(r2.error)throw r2.error}}catch(err){toast(/Invalid login/i.test(err.message)?"E-mail ou mot de passe incorrect":/registered/i.test(err.message)?"Ce compte existe déjà : connecte-toi":/least 6|Password/i.test(err.message)?"Mot de passe : 6 caractères minimum":"Erreur : "+err.message)}busy(false)};
+$("#bgoogle").onclick=async function(){var r=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}});if(r.error)toast("Connexion Google bientôt disponible")};
+$("#logout").onclick=async function(){await sb.auth.signOut();U=null;$("#app").style.display="none";$("#auth").style.display="grid"};
+/* --- vues --- */
+function card(m,own){var pr=(U.progress[m.id]||0);
+ return '<div class="fc'+(own?'':' locked')+'" style="--c:'+m.c+'"><img class="ban" src="'+m.img+'" alt="" loading="lazy"><div class="fb">'+
+ (own?'<span class="badge">Précommandée · sortie prochaine</span>':'<span class="badge">'+(m.id==='m11'?'Idéale pour commencer':'Précommande')+'</span>')+
+ '<h3>'+esc(m.t)+'</h3>'+
+ (own?'<div class="bar"><i style="width:'+pr+'%"></i></div><div class="meta"><span>Progression</span><span>'+pr+' %</span></div><button class="btn sm" data-open="'+m.id+'">Ouvrir</button>'
+     :'<div class="price">'+m.p+' €<s>'+m.pn+' €</s></div><a class="btn sm" href="index.html#'+m.id+'">Voir la compétence</a>')+'</div></div>'}
+function vipBox(){var own=U.owned.length,e=document.getElementById('vipside');if(!e)return;e.innerHTML=own?'<b>Cercle VIP · débloqué ✓</b>'+(U.owned.length===MODS.length?'Ton 1er mois est offert avec le Pack. ':'Un live par mois avec moi et l’équipe. 39 €/mois. ')+'<br><a class="btn sm" style="margin-top:10px;background:#F5C451;color:#05070f" href="index.html#appel">Rejoindre</a>':'<b>Cercle VIP 🔒</b>Réservé aux élèves : il se débloque dès ta première compétence.<br><a class="btn sm ghost" style="margin-top:10px" href="index.html#offres">Choisir une compétence</a>'}
+function V(v){document.querySelectorAll("[data-v]").forEach(function(b){if(b.classList.contains("nav")||b.parentElement.classList.contains("mob-nav"))b.classList.toggle("on",b.dataset.v===v)});
+ var own=MODS.filter(function(m){return U.owned.indexOf(m.id)>=0}),rest=MODS.filter(function(m){return U.owned.indexOf(m.id)<0}),h="";
+ if(v==="home"){$("#vtitle").innerHTML='Bonjour <span class="grad">'+esc(U.prenom)+'</span> 👋';
+  h='<div class="stats"><div class="stat"><b>'+own.length+'</b><span>compétence'+(own.length>1?'s':'')+'</span></div><div class="stat"><b>'+FREE.length+'</b><span>guides gratuits</span></div><div class="stat"><b>'+(own.length?(own.length===MODS.length?'1 mois offert':'Débloqué'):'🔒')+'</b><span>Cercle VIP</span></div></div>';
+  h+='<h2>Mes compétences</h2>'+(own.length?'<div class="grid">'+own.map(function(m){return card(m,1)}).join("")+'</div>':'<div class="empty">Tu n\'as pas encore de compétence. Commence par « Maîtrise les IA », ou prends tout le <a class="grad" href="index.html#precommande">Pack Univers</a>.'+(/demo/.test(location.search)?'<br><br><button class="btn sm" id="demoPack">Voir la démo avec le Pack</button>':'')+'</div><br>');
+  h+='<h2>Recommandées pour toi</h2><div class="grid">'+rest.slice(0,4).map(function(m){return card(m,0)}).join("")+'</div>'}
+ if(v==="mine"){$("#vtitle").textContent="Mes compétences";h=own.length?'<div class="grid">'+own.map(function(m){return card(m,1)}).join("")+'</div>':'<div class="empty">Aucune compétence pour l\'instant.'+(/demo/.test(location.search)?' <button class="btn sm" id="demoPack">Voir la démo avec le Pack</button>':'')+'</div>'}
+ if(v==="shop"){$("#vtitle").textContent="Découvrir";h='<div class="grid">'+rest.map(function(m){return card(m,0)}).join("")+'</div>'+(rest.length?'<div class="empty">Les '+MODS.length+' compétences + 2 bonus dans le <a class="grad" href="index.html#precommande">Pack Univers à 497 €</a>.</div>':'')}
+ if(v==="free"){$("#vtitle").textContent="Guides gratuits";h='<div class="grid">'+FREE.map(function(g){return '<div class="fc" style="--c:'+g.c+'"><img class="ban" src="'+g.img+'" alt="" style="aspect-ratio:16/9"><div class="fb"><span class="badge">Débloqué</span><h3>'+g.t+'</h3><button class="btn sm" data-dl>Télécharger</button></div></div>'}).join("")+'</div>'}
+ if(v==="profil"){$("#vtitle").textContent="Mon profil";
+  h='<div class="pcard"><div class="pbig"><span class="av" id="avBig">'+avHTML(U)+'</span><div><b style="font-size:1.2rem">'+esc(U.prenom)+'</b><div class="note">'+esc(U.email)+'</div></div></div>'+
+  '<b>Choisis ton avatar</b><div class="avs">'+AVATARS.map(function(a){return '<button type="button" data-av="'+a+'" class="'+(U.avatar===a&&!U.photo?'on':'')+'"><img src="assets/icones/'+a+'.png" alt=""></button>'}).join("")+'</div>'+
+  '<label class="btn ghost sm" style="display:inline-flex;margin-bottom:18px">📷 Mettre ma photo<input type="file" accept="image/*" id="photo" hidden></label>'+
+  '<div class="row2"><label>Prénom<input id="pPrenom" value="'+esc(U.prenom)+'"></label><label>E-mail<input value="'+esc(U.email)+'" disabled></label></div><br><button class="btn" id="psave">Enregistrer</button></div>'}
+ $("#view").innerHTML=h;vipBox();$("#avTop").innerHTML=avHTML(U);$("#nmTop").textContent=U.prenom;window.scrollTo(0,0)}
+document.addEventListener("click",function(e){var t=e.target.closest("[data-v]");if(t){V(t.dataset.v);return}
+ if(e.target.closest("#demoPack")){U.demo=true;U.owned=MODS.map(function(m){return m.id});MODS.forEach(function(m,i){U.progress[m.id]=[0,15,40,0,70,5][i%6]});save();toast("Démo : Pack Univers débloqué");V("mine");return}
+ var a=e.target.closest("[data-av]");if(a){U.avatar=a.dataset.av;delete U.photo;save();V("profil");toast("Avatar mis à jour");return}
+ if(e.target.closest("#psave")){U.prenom=$("#pPrenom").value.trim()||U.prenom;save();V("profil");toast("Profil enregistré");return}
+ if(e.target.closest("[data-open]")){toast("Les leçons seront disponibles à la sortie de la compétence");return}
+ if(e.target.closest("[data-dl]")){toast("Le guide sera envoyé par e-mail");return}});
+document.addEventListener("change",function(e){if(e.target.id!=="photo"||!e.target.files[0])return;var r=new FileReader();
+ r.onload=function(){var i=new Image();i.onload=function(){var c=document.createElement("canvas"),s=160;c.width=c.height=s;var k=Math.max(s/i.width,s/i.height),w=i.width*k,h=i.height*k;
+  c.getContext("2d").drawImage(i,(s-w)/2,(s-h)/2,w,h);U.photo=c.toDataURL("image/jpeg",.85);save();V("profil");toast("Photo mise à jour")};i.src=r.result};r.readAsDataURL(e.target.files[0])});
+function start(){$("#auth").style.display="none";$("#app").style.display="grid";V("home")}
+async function load(sess){var u=sess.user,loc=JSON.parse(localStorage.getItem(K+"_"+u.id)||"{}");var p=await sb.from("alex_profiles").select("prenom,avatar").eq("id",u.id).maybeSingle();var a=await sb.from("alex_purchases").select("module_id").eq("user_id",u.id);U={id:u.id,email:u.email,prenom:(p.data&&p.data.prenom)||(u.user_metadata&&u.user_metadata.prenom)||u.email.split("@")[0],avatar:(p.data&&p.data.avatar)||"c-m11",owned:(a.data||[]).map(function(x){return x.module_id}),progress:loc.progress||{},photo:loc.photo||null};if(!p.data)save();start()}
+sb.auth.getSession().then(function(r){if(r.data.session)load(r.data.session)});sb.auth.onAuthStateChange(function(ev,sess){if(ev==="SIGNED_IN"&&sess&&!U)load(sess)});
+</script></body></html>
