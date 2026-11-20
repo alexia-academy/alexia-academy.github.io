@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /espace
+Sitemap: https://alexia-academy.github.io/sitemap.xml

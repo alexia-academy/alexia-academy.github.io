@@ -19,16 +19,34 @@ var COLS={
  leads:{t:"Demandes",from:function(){return sb.from("alex_leads").select("*").order("created_at",{ascending:false}).limit(500)},cols:[["created_at","Date"],["demande","Demande"],["prenom","Prénom"],["nom","Nom"],["email","E-mail"],["telephone","Téléphone"],["projet","Projet"],["page","Page"]]},
  achats:{t:"Achats",from:function(){return sb.rpc("admin_achats")},cols:[["created_at","Date"],["email","E-mail"],["module_id","Produit"],["stripe_ref","Référence Stripe"]]},
  attente:{t:"Achats en attente de compte",from:function(){return sb.from("alex_pending_purchases").select("*").order("created_at",{ascending:false}).limit(500)},cols:[["created_at","Date"],["email","E-mail"],["module_id","Produit"],["stripe_ref","Référence Stripe"]]},
+ stats:{t:"Statistiques",custom:true},
  erreurs:{t:"Erreurs du site",from:function(){return sb.from("alex_errors").select("*").order("created_at",{ascending:false}).limit(200)},cols:[["created_at","Date"],["kind","Type"],["message","Message"],["page","Page"],["detail","Détail"]]}
 };
 function fmt(k,v){if(v==null)return"";if(k==="created_at")return new Date(v).toLocaleString("fr-FR");return String(v)}
+function tabsEl(key){var tabs=document.createElement("div");tabs.className="tabs";Object.keys(COLS).forEach(function(k){var b=document.createElement("button");b.className="tab"+(k===key?" on":"");b.textContent=COLS[k].t;b.onclick=function(){show(k)};tabs.appendChild(b)});return tabs}
+function tbl(rows,cols){var tb=document.createElement("table"),th=document.createElement("tr");cols.forEach(function(x){var e=document.createElement("th");e.textContent=x[1];th.appendChild(e)});tb.appendChild(th);rows.forEach(function(r){var tr=document.createElement("tr");cols.forEach(function(x){var td=document.createElement("td");td.textContent=r[x[0]]==null?"":r[x[0]];tr.appendChild(td)});tb.appendChild(tr)});return tb}
+function box(titre,el){var d=document.createElement("div");d.className="card";d.style.marginBottom="14px";var h=document.createElement("b");h.textContent=titre;d.appendChild(h);d.appendChild(el);return d}
+async function showStats(wrap,key){
+  wrap.appendChild(tabsEl(key));
+  var r=await sb.rpc("admin_stats",{p_jours:30});
+  if(r.error||!r.data){var m=document.createElement("div");m.className="card";m.textContent="Statistiques indisponibles : "+(r.error?r.error.message:"accès refusé");wrap.appendChild(m);app.innerHTML="";app.appendChild(wrap);return}
+  var s=r.data,k=document.createElement("div");k.className="card";k.style.marginBottom="14px";
+  var taux=s.vues?Math.round(1000*s.demandes/s.vues)/10:0;
+  k.textContent="30 derniers jours : "+s.vues+" visites · "+s.clics+" clics sur les boutons · "+s.demandes+" demandes · taux de demande "+taux+" %";
+  wrap.appendChild(k);
+  wrap.appendChild(box("Visites par jour",tbl(s.par_jour.slice().reverse(),[["jour","Jour"],["vues","Visites"]])));
+  wrap.appendChild(box("Pages les plus vues",tbl(s.top_pages,[["page","Page"],["vues","Visites"]])));
+  wrap.appendChild(box("Boutons les plus cliqués",tbl(s.top_clics,[["cible","Bouton / produit"],["clics","Clics"]])));
+  wrap.appendChild(box("D'où viennent les visiteurs",tbl(s.sources,[["source","Source"],["vues","Visites"]])));
+  wrap.appendChild(box("Appareils",tbl(s.appareils,[["appareil","Appareil"],["vues","Visites"]])));
+  app.innerHTML="";app.appendChild(wrap);
+}
 async function show(key){
   current=key;var c=COLS[key];
-  var res=await c.from();
   var wrap=document.createElement("div");
-  var tabs=document.createElement("div");tabs.className="tabs";
-  Object.keys(COLS).forEach(function(k){var b=document.createElement("button");b.className="tab"+(k===key?" on":"");b.textContent=COLS[k].t;b.onclick=function(){show(k)};tabs.appendChild(b)});
-  wrap.appendChild(tabs);
+  if(c.custom){await showStats(wrap,key);return}
+  var res=await c.from();
+  wrap.appendChild(tabsEl(key));
   var card=document.createElement("div");card.className="card";
   if(res.error){card.textContent="Erreur : "+res.error.message}
   else if(!res.data||!res.data.length){card.innerHTML="";var p=document.createElement("div");p.className="msg";p.textContent="Aucune entrée pour le moment.";card.appendChild(p)}

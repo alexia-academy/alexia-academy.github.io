@@ -18,3 +18,26 @@
     var r=e.reason;report("promesse",(r&&r.message)||r,(r&&r.stack)||"");
   });
 })();
+
+/* Mesure d'audience anonyme : aucun cookie, aucune adresse IP, aucune donnée personnelle. Respecte "Ne pas me suivre". */
+(function(){
+  try{
+    if(navigator.doNotTrack==="1"||navigator.globalPrivacyControl||/^\/admin/.test(location.pathname)||location.hostname==="localhost"||location.protocol==="file:")return;
+    var URL="https://phqfpqzrpdfvpewkvqdh.supabase.co/rest/v1/alex_events",KEY="sb_publishable_W-z46a0Mhkojf2X8YkTJ8A_QJNKWmHA";
+    var w=innerWidth,dev=w<700?"mobile":(w<1100?"tablette":"ordinateur");
+    var q=new URLSearchParams(location.search),src=q.get("utm_source")||"";
+    if(!src&&document.referrer){try{var h=new URL_(document.referrer).hostname.replace(/^www\./,"");if(h!==location.hostname)src=h}catch(e){}}
+    function URL_(u){return new window.URL(u)}
+    function send(type,cible){
+      fetch(URL,{method:"POST",keepalive:true,headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json",Prefer:"return=minimal"},
+        body:JSON.stringify({type:type,page:(location.pathname.replace(/\.html$/,"")||"/").slice(0,190),cible:cible?String(cible).slice(0,190):null,source:src?src.slice(0,90):null,appareil:dev})}).catch(function(){});
+    }
+    send("vue");
+    document.addEventListener("click",function(e){
+      var a=e.target.closest&&e.target.closest("a.btn,button.btn,[data-open],a[href*='ventes/'],a[href*='#reserver-'],#dsend");
+      if(!a)return;
+      var c=a.getAttribute("data-title")||(a.textContent||"").trim().replace(/\s+/g," ")||a.getAttribute("href");
+      send("clic",c);
+    },true);
+  }catch(e){}
+})();
