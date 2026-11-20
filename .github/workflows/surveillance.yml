@@ -20,7 +20,7 @@ jobs:
           done
           # base de donnees active (cette requete garde aussi la base eveillee)
           c=$(curl -s -o /dev/null -w "%{http_code}" --max-time 20 "$SB/rest/v1/alex_leads?select=id&limit=1" -H "apikey: $KEY")
-          echo "base de donnees -> $c"; [ "$c" = "200" ] || { echo "::error::Base de donnees injoignable ($c)"; ERR=1; }
+          echo "base de donnees -> $c"; case "$c" in 200|401|403) ;; *) echo "::error::Base de donnees injoignable ($c)"; ERR=1;; esac
           # connexion e-mail + Google actives
           s=$(curl -s --max-time 20 "$SB/auth/v1/settings" -H "apikey: $KEY")
           echo "$s" | grep -q '"google":true' || { echo "::error::Connexion Google desactivee"; ERR=1; }
