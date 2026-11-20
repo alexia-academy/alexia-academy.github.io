@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Administration · ALEX IA</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<style>*{box-sizing:border-box}body{margin:0;background:#070a1c;color:#f2f4ff;font:15px/1.6 Inter,system-ui,sans-serif}
+.w{max-width:1100px;margin:0 auto;padding:22px}header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+h1{font:800 1.5rem system-ui;margin:0}a{color:#22d3ee}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.tab{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;padding:8px 14px;border-radius:999px;cursor:pointer;font:600 .9rem system-ui}.tab.on{background:#7c5cff;border-color:#7c5cff}
+.card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top}th{color:#aab1d8;font-weight:600;white-space:nowrap}
+.msg{padding:30px;text-align:center;color:#c9cfee}button.b{background:#7c5cff;color:#fff;border:0;padding:9px 16px;border-radius:10px;font-weight:700;cursor:pointer}.muted{color:#aab1d8}</style></head><body><div class="w">
+<header><h1>Administration ALEX IA</h1><div><span class="muted" id="who"></span> <button class="b" id="refresh" style="display:none">Actualiser</button></div></header>
+<div id="app"><div class="msg">Chargement…</div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="alex-monitor.js"></script>
+<script>
+var sb=supabase.createClient("https://phqfpqzrpdfvpewkvqdh.supabase.co","sb_publishable_W-z46a0Mhkojf2X8YkTJ8A_QJNKWmHA");
+var app=document.getElementById("app"),current="leads";
+var LOGIN=location.pathname.indexOf(".html")>-1?"espace.html":"espace";
+function msg(t,link){app.innerHTML="";var d=document.createElement("div");d.className="msg";d.textContent=t;if(link){d.appendChild(document.createElement("br"));var a=document.createElement("a");a.href=LOGIN;a.textContent="Aller à la connexion";d.appendChild(a)}app.appendChild(d)}
+var COLS={
+ leads:{t:"Demandes",from:function(){return sb.from("alex_leads").select("*").order("created_at",{ascending:false}).limit(500)},cols:[["created_at","Date"],["demande","Demande"],["prenom","Prénom"],["nom","Nom"],["email","E-mail"],["telephone","Téléphone"],["projet","Projet"],["page","Page"]]},
+ achats:{t:"Achats",from:function(){return sb.rpc("admin_achats")},cols:[["created_at","Date"],["email","E-mail"],["module_id","Produit"],["stripe_ref","Référence Stripe"]]},
+ attente:{t:"Achats en attente de compte",from:function(){return sb.from("alex_pending_purchases").select("*").order("created_at",{ascending:false}).limit(500)},cols:[["created_at","Date"],["email","E-mail"],["module_id","Produit"],["stripe_ref","Référence Stripe"]]},
+ erreurs:{t:"Erreurs du site",from:function(){return sb.from("alex_errors").select("*").order("created_at",{ascending:false}).limit(200)},cols:[["created_at","Date"],["kind","Type"],["message","Message"],["page","Page"],["detail","Détail"]]}
+};
+function fmt(k,v){if(v==null)return"";if(k==="created_at")return new Date(v).toLocaleString("fr-FR");return String(v)}
+async function show(key){
+  current=key;var c=COLS[key];
+  var res=await c.from();
+  var wrap=document.createElement("div");
+  var tabs=document.createElement("div");tabs.className="tabs";
+  Object.keys(COLS).forEach(function(k){var b=document.createElement("button");b.className="tab"+(k===key?" on":"");b.textContent=COLS[k].t;b.onclick=function(){show(k)};tabs.appendChild(b)});
+  wrap.appendChild(tabs);
+  var card=document.createElement("div");card.className="card";
+  if(res.error){card.textContent="Erreur : "+res.error.message}
+  else if(!res.data||!res.data.length){card.innerHTML="";var p=document.createElement("div");p.className="msg";p.textContent="Aucune entrée pour le moment.";card.appendChild(p)}
+  else{
+    var cnt=document.createElement("p");cnt.className="muted";cnt.textContent=res.data.length+" entrée(s)";card.appendChild(cnt);
+    var tb=document.createElement("table"),th=document.createElement("tr");
+    c.cols.forEach(function(x){var e=document.createElement("th");e.textContent=x[1];th.appendChild(e)});tb.appendChild(th);
+    res.data.forEach(function(r){var tr=document.createElement("tr");c.cols.forEach(function(x){var td=document.createElement("td");td.textContent=fmt(x[0],r[x[0]]);tr.appendChild(td)});tb.appendChild(tr)});
+    card.appendChild(tb)}
+  wrap.appendChild(card);app.innerHTML="";app.appendChild(wrap);
+}
+async function init(){
+  var s=(await sb.auth.getSession()).data.session;
+  if(!s){msg("Connecte-toi d'abord avec ton compte administrateur.",true);return}
+  document.getElementById("who").textContent=s.user.email;
+  var a=await sb.rpc("est_admin");
+  if(a.error||a.data!==true){msg("Ce compte n'a pas l'accès administrateur.");return}
+  document.getElementById("refresh").style.display="";document.getElementById("refresh").onclick=function(){show(current)};
+  show("leads");
+}
+init();
+</script></body></html>
