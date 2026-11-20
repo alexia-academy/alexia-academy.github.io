@@ -120,6 +120,8 @@ add("OK" if st == 400 else "ECHEC", "Paiement", "reception des paiements active 
 st, _, _ = get(A.supabase + "/functions/v1/notifier-demande", method="POST", data=b"{}", headers={"Content-Type": "application/json"})
 add("OK" if st == 403 else "ATTENTION", "Alertes", "notification des demandes protegee par jeton" if st == 403 else f"fonction de notification : reponse inattendue ({st})")
 
+st, _, _ = get(A.supabase + "/functions/v1/offre-flash", method="POST", data=b"{}", headers={"Content-Type": "application/json"})
+add("OK" if st == 401 else "ATTENTION", "Offres", "offres reservees aux comptes connectes" if st == 401 else f"fonction d'offres : reponse inattendue ({st})")
 # ---------- 6. base de donnees ----------
 H = {"apikey": A.anon, "Authorization": "Bearer " + A.anon}
 for t in ("alex_leads", "alex_purchases", "alex_pending_purchases", "alex_errors", "alex_events", "alex_admins", "alex_profiles"):

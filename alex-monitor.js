@@ -59,7 +59,7 @@
     var xb=document.createElement("button");xb.type="button";xb.setAttribute("aria-label","Fermer le bandeau");xb.textContent="×";xb.style.cssText="background:rgba(0,0,0,.25);border:0;color:#fff;border-radius:50%;width:24px;height:24px;margin-left:12px;cursor:pointer;font:700 15px/22px system-ui";xb.onclick=function(){localStorage.setItem("alex_offre_ferme",o.code);b.remove();clearInterval(tm)};var tx=document.createElement("span");i.appendChild(tx);i.appendChild(xb);b.appendChild(i);document.body.appendChild(b);
     function maj(){var r=Math.max(0,Math.floor((new Date(o.expires_at)-Date.now())/1000));if(r<=0){localStorage.removeItem("alex_offre");bandeau();return}
       var h=Math.floor(r/3600),m=Math.floor(r%3600/60),s=r%60,tt=(h?h+" h ":"")+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
-      tx.textContent=(o.type==="bienvenue"?"Bienvenue : -":"Offre personnelle : -")+o.pourcentage+" % appliqué à ton paiement · il te reste "+tt}
+      tx.textContent=(o.type==="bienvenue"?"Bienvenue : -":"Content de te revoir ! Cadeau de retour : -")+o.pourcentage+" % appliqué à ton paiement · il te reste "+tt}
     maj();tm=setInterval(maj,1000)}
   function popup(titre,texte,bouton,action){
     if(document.getElementById("alexPop"))return;
@@ -82,8 +82,18 @@
     location.href=finalUrl(link)},true);
   if(ESPACE||/^\/(cgv|mentions-legales|confidentialite)/.test(P)||location.protocol==="file:")return;
   bandeau();
+  if(tok()){localStorage.setItem("alex_connu","1")}
+  else if(localStorage.getItem("alex_connu")&&!recentK("alex_revenir",24*3600*1000)){
+    localStorage.setItem("alex_revenir",String(Date.now()));
+    var rb=document.createElement("div");rb.setAttribute("role","status");rb.style.cssText="position:fixed;left:0;right:0;bottom:64px;z-index:99998;display:flex;justify-content:center;pointer-events:none";
+    var ri=document.createElement("div");ri.style.cssText="pointer-events:auto;background:#0d1230;color:#fff;border:1px solid rgba(124,92,255,.6);font:600 14px system-ui;padding:10px 16px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.4);margin:0 10px;text-align:center";
+    var ra=document.createElement("a");ra.href="/espace";ra.textContent="Me connecter";ra.style.cssText="color:#22d3ee;margin-left:10px;font-weight:800";
+    var rx=document.createElement("button");rx.type="button";rx.setAttribute("aria-label","Fermer");rx.textContent="×";rx.style.cssText="background:rgba(255,255,255,.12);border:0;color:#fff;border-radius:50%;width:24px;height:24px;margin-left:12px;cursor:pointer";rx.onclick=function(){rb.remove()};
+    var rt=document.createElement("span");rt.textContent="Content de te revoir ! Connecte-toi : une offre de retour peut t’attendre.";
+    ri.appendChild(rt);ri.appendChild(ra);ri.appendChild(rx);rb.appendChild(ri);document.body.appendChild(rb)}
   /* 2) Comptage des produits regardés */
   if(/^\/ventes\//.test(P)){try{var v=JSON.parse(localStorage.getItem("alex_vues")||"[]");if(v.indexOf(P)<0){v.push(P);localStorage.setItem("alex_vues",JSON.stringify(v.slice(-20)))}}catch(e){}}
+  function recentK(k,ms){return Date.now()-Number(localStorage.getItem(k)||0)<ms}
   function recent(k,ms){return Date.now()-Number(localStorage.getItem(k)||0)<ms}
   var t0=Date.now();
   /* 3) Réactions selon le comportement */
@@ -102,7 +112,7 @@
   /* retour : si l'offre de bienvenue a expiré sans achat, le serveur accorde -25 % pendant 4 h (une fois tous les 7 jours) */
   if(tok()&&!offre()&&!recent("alex_achat",24*3600*1000)&&!recent("alex_verif_retour",3600*1000)){localStorage.setItem("alex_verif_retour",String(Date.now()));
     get("flash","retour").then(function(o){if(o&&o.type==="flash"&&!recent("alex_pop_flash",3600*1000)){localStorage.setItem("alex_pop_flash",String(Date.now()));
-      popup("Content de te revoir : -"+o.pourcentage+" %","Offre personnelle valable 4 heures, appliquée automatiquement à ton paiement. Passé ce délai, le prix normal s’applique.","Voir les compétences",function(){if(!/^\/ventes\//.test(P))location.href="/#catalogue"})}})}
+      popup("Content de te revoir ! On t’offre -"+o.pourcentage+" %","Cadeau de retour valable 4 heures, appliquée automatiquement à ton paiement. Passé ce délai, le prix normal s’applique.","Voir les compétences",function(){if(!/^\/ventes\//.test(P))location.href="/#catalogue"})}})}
   /* retour après un clic sur « Payer » sans achat */
   if(tok()&&aCliquePaiement&&!recent("alex_achat",24*3600*1000)){setTimeout(function(){proposerConnecte("retour")},4000)}
   /* visiteur non connecté qui regarde 3 produits : on lui propose le compte + -10 % */
