@@ -52,14 +52,14 @@
     return fetch(FN,{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+s.access_token,apikey:KEY},body:JSON.stringify({type:type,declencheur:decl})}).then(function(r){return r.json()}).then(function(j){if(j&&j.code){localStorage.setItem("alex_offre",JSON.stringify(j));bandeau();return j}return null}).catch(function(){return null})}
   var tm;
   function bandeau(){
-    var old=document.getElementById("alexOffre");if(old)old.remove();clearInterval(tm);var o=offre();if(!o)return;
+    var old=document.getElementById("alexOffre");if(old)old.remove();clearInterval(tm);var o=offre();if(!o||localStorage.getItem("alex_offre_ferme")===o.code)return;
     var b=document.createElement("div");b.id="alexOffre";b.setAttribute("role","status");
     b.style.cssText="position:fixed;left:0;right:0;bottom:64px;z-index:99998;display:flex;justify-content:center;pointer-events:none";
     var i=document.createElement("div");i.style.cssText="pointer-events:auto;background:linear-gradient(90deg,#7c5cff,#22d3ee);color:#fff;font:700 14px system-ui;padding:10px 18px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.4);margin:0 10px;text-align:center";
-    b.appendChild(i);document.body.appendChild(b);
+    var xb=document.createElement("button");xb.type="button";xb.setAttribute("aria-label","Fermer le bandeau");xb.textContent="×";xb.style.cssText="background:rgba(0,0,0,.25);border:0;color:#fff;border-radius:50%;width:24px;height:24px;margin-left:12px;cursor:pointer;font:700 15px/22px system-ui";xb.onclick=function(){localStorage.setItem("alex_offre_ferme",o.code);b.remove();clearInterval(tm)};var tx=document.createElement("span");i.appendChild(tx);i.appendChild(xb);b.appendChild(i);document.body.appendChild(b);
     function maj(){var r=Math.max(0,Math.floor((new Date(o.expires_at)-Date.now())/1000));if(r<=0){localStorage.removeItem("alex_offre");bandeau();return}
       var h=Math.floor(r/3600),m=Math.floor(r%3600/60),s=r%60,tt=(h?h+" h ":"")+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
-      i.textContent="-"+o.pourcentage+" % appliqué à ton paiement · il te reste "+tt}
+      tx.textContent=(o.type==="bienvenue"?"Bienvenue : -":"Offre personnelle : -")+o.pourcentage+" % appliqué à ton paiement · il te reste "+tt}
     maj();tm=setInterval(maj,1000)}
   function popup(titre,texte,bouton,action){
     if(document.getElementById("alexPop"))return;
@@ -90,15 +90,19 @@
   function proposerConnecte(decl){
     if(offre()||recent("alex_pop_flash",3600*1000))return;
     get("flash",decl).then(function(o){if(!o)return;localStorage.setItem("alex_pop_flash",String(Date.now()));
-      popup("-"+o.pourcentage+" % rien que pour toi","Offre personnelle valable 30 minutes, appliquée automatiquement à ton paiement.","Profiter de -"+o.pourcentage+" %",function(){var l=document.querySelector('a[href^="https://buy.stripe.com/"]');if(l)l.scrollIntoView({behavior:"smooth",block:"center"})})})}
+      popup("-"+o.pourcentage+" % rien que pour toi","Offre personnelle valable 4 heures, appliquée automatiquement à ton paiement. Passé ce délai, le prix normal s’applique.","Profiter de -"+o.pourcentage+" %",function(){var l=document.querySelector('a[href^="https://buy.stripe.com/"]');if(l)l.scrollIntoView({behavior:"smooth",block:"center"})})})}
   function proposerInvite(){
     if(recent("alex_pop_invite",7*86400000))return;localStorage.setItem("alex_pop_invite",String(Date.now()));
-    popup("Avant de partir : -10 %","Crée ton compte gratuit et reçois -10 % sur ta première commande (valable 48 h).","Créer mon compte",function(){location.href="/espace?inscription=1"})}
+    popup("Avant de partir : -10 %","Crée ton compte gratuit et reçois -10 % sur ta première commande (valable 24 h).","Créer mon compte",function(){location.href="/espace?inscription=1"})}
   var vues=0;try{vues=JSON.parse(localStorage.getItem("alex_vues")||"[]").length}catch(e){}
   var aCliquePaiement=recent("alex_pay_click",24*3600*1000);
   document.addEventListener("mouseout",function(e){
     if(e.clientY>0||e.relatedTarget||Date.now()-t0<8000||sessionStorage.getItem("alex_sortie"))return;sessionStorage.setItem("alex_sortie","1");
     if(tok()){if(aCliquePaiement||vues>=2)proposerConnecte("sortie")}else{proposerInvite()}});
+  /* retour : si l'offre de bienvenue a expiré sans achat, le serveur accorde -25 % pendant 4 h (une fois tous les 7 jours) */
+  if(tok()&&!offre()&&!recent("alex_achat",24*3600*1000)&&!recent("alex_verif_retour",3600*1000)){localStorage.setItem("alex_verif_retour",String(Date.now()));
+    get("flash","retour").then(function(o){if(o&&o.type==="flash"&&!recent("alex_pop_flash",3600*1000)){localStorage.setItem("alex_pop_flash",String(Date.now()));
+      popup("Content de te revoir : -"+o.pourcentage+" %","Offre personnelle valable 4 heures, appliquée automatiquement à ton paiement. Passé ce délai, le prix normal s’applique.","Voir les compétences",function(){if(!/^\/ventes\//.test(P))location.href="/#catalogue"})}})}
   /* retour après un clic sur « Payer » sans achat */
   if(tok()&&aCliquePaiement&&!recent("alex_achat",24*3600*1000)){setTimeout(function(){proposerConnecte("retour")},4000)}
   /* visiteur non connecté qui regarde 3 produits : on lui propose le compte + -10 % */
