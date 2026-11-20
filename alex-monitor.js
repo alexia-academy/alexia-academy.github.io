@@ -41,3 +41,14 @@
     },true);
   }catch(e){}
 })();
+
+/* Paiement : si le visiteur est connecté, son e-mail est pré-rempli chez Stripe (l'achat est alors rattaché au bon compte). */
+document.addEventListener("click",function(e){
+  try{
+    var a=e.target.closest&&e.target.closest('a[href^="https://buy.stripe.com/"]');
+    if(!a||a.href.indexOf("prefilled_email")>-1)return;
+    var k=Object.keys(localStorage).filter(function(x){return /^sb-.*-auth-token$/.test(x)})[0];
+    var em=k&&JSON.parse(localStorage.getItem(k)).user.email;
+    if(em)a.href+=(a.href.indexOf("?")>-1?"&":"?")+"prefilled_email="+encodeURIComponent(em);
+  }catch(x){}
+},true);
