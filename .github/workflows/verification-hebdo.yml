@@ -1,0 +1,17 @@
+name: Verification complete du site
+on:
+  schedule:
+    - cron: "30 6 * * 1"
+  workflow_dispatch:
+  push:
+    branches: [main]
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Attendre le deploiement des pages
+        run: sleep 90
+        if: github.event_name == 'push'
+      - name: Rapport
+        run: python .github/scripts/verif_site.py --repo .
