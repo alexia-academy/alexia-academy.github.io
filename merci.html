@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Merci · ALEX IA</title>
+<link rel="icon" type="image/png" href="assets/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet"><style>*{box-sizing:border-box}body{margin:0;background:#070a1c;color:#f2f4ff;font:16px/1.7 Inter,system-ui,sans-serif;min-height:100vh;background-image:radial-gradient(ellipse at 20% 0%,rgba(124,92,255,.25),transparent 55%),radial-gradient(ellipse at 90% 100%,rgba(34,211,238,.15),transparent 50%)}
+.w{max-width:640px;margin:0 auto;padding:28px 22px 80px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:46px}
+.logo{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font:800 1.2rem 'Plus Jakarta Sans',Inter,sans-serif}.logo img{width:34px;height:34px}
+.back{color:#aab1d8;text-decoration:none;font-size:.95rem}.back:hover{color:#fff}
+.carte{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:34px 28px;text-align:center}
+.pastille{width:64px;height:64px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;font-size:30px;background:linear-gradient(135deg,#7c5cff,#22d3ee);color:#fff}
+h1{font:800 clamp(1.7rem,5vw,2.3rem)/1.2 'Plus Jakarta Sans',Inter,sans-serif;margin:0 0 10px}
+p{color:#c9cfee;margin:0 0 14px}.etat{margin:20px 0;padding:14px 16px;border-radius:14px;background:rgba(124,92,255,.12);border:1px solid rgba(124,92,255,.35);color:#d7d9ff;font-size:.95rem}
+.etat.ok{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.4);color:#c9f7d8}
+.btn{display:inline-block;margin-top:8px;background:#7c5cff;color:#fff;text-decoration:none;font-weight:700;padding:14px 26px;border-radius:12px}.btn:hover{background:#6a49f0}
+.petit{font-size:.85rem;color:#8f97c4;margin-top:22px}a{color:#22d3ee}</style></head><body><div class="w">
+<header><a class="logo" href="index.html"><img src="assets/logo-alex.png" alt="">ALEX</a><a class="back" href="index.html">← Retour au site</a></header>
+<div class="carte">
+<div class="pastille" aria-hidden="true">✓</div>
+<h1>Merci, ton paiement est confirmé</h1>
+<p>Ton accès s'ouvre dans ton espace membre le <b>1er décembre 2026 à 20 h</b> (heure de Paris). Tu seras prévenu par e-mail.</p>
+<div id="etat" class="etat" role="status">Vérification de ta commande…</div>
+<a id="cta" class="btn" href="espace.html">Ouvrir mon espace</a>
+<p class="petit">Ton reçu de paiement t'est envoyé séparément par Stripe. Une question ? Consulte nos <a href="cgv.html">conditions de vente</a> (droit de rétractation de 14 jours).</p>
+</div>
+<script>
+(function(){
+  var SB="https://phqfpqzrpdfvpewkvqdh.supabase.co",KEY="sb_publishable_W-z46a0Mhkojf2X8YkTJ8A_QJNKWmHA";
+  var etat=document.getElementById("etat"),cta=document.getElementById("cta");
+  try{localStorage.setItem("alex_achat",String(Date.now()))}catch(e){}
+  function session(){try{var k=Object.keys(localStorage).filter(function(x){return /^sb-.*-auth-token$/.test(x)})[0];var j=k&&JSON.parse(localStorage.getItem(k));return j&&j.access_token&&j.user?j:null}catch(e){return null}}
+  var s=session(),essais=0;
+  if(!s){
+    etat.textContent="Connecte-toi avec l'adresse e-mail de ton compte pour retrouver ta commande. Si tu as payé avec une autre adresse, ta commande est quand même rattachée à ton compte : elle apparaîtra dès ta connexion.";
+    cta.textContent="Me connecter";cta.href="espace.html";return;
+  }
+  function verifier(){
+    essais++;
+    fetch(SB+"/rest/v1/alex_purchases?select=module_id,created_at&order=created_at.desc&limit=1",{headers:{apikey:KEY,Authorization:"Bearer "+s.access_token}})
+      .then(function(r){return r.json()}).then(function(j){
+        var recent=Array.isArray(j)&&j.length&&(Date.now()-new Date(j[0].created_at).getTime())<2*3600*1000;
+        if(recent){etat.className="etat ok";etat.textContent="Commande enregistrée sur ton compte ("+s.user.email+"). Retrouve-la dans ton espace membre.";return}
+        if(essais<12){setTimeout(verifier,5000);return}
+        etat.textContent="Ton paiement est bien reçu. L'enregistrement peut prendre quelques minutes : retrouve ta commande dans ton espace, ou écris-nous si rien n'apparaît après 1 heure.";
+      }).catch(function(){if(essais<12)setTimeout(verifier,5000)});
+  }
+  verifier();
+})();
+</script>
+<script src="alex-monitor.js" defer></script>
+</div></body></html>
