@@ -582,7 +582,7 @@ d.addEventListener('click',out);setTimeout(out,1700)})();</script>
 <p>© 2026 Alex · <a href="cgv">Conditions de vente</a> · <a href="mentions-legales">Mentions légales</a> · <a href="confidentialite">Confidentialité</a></p></div></footer>
 <div class="calcbar" id="calcbar" hidden><div class="cb-in"><div class="cb-l"><b id="cbn">0 compétence</b><span id="cbd"></span></div><div class="cb-p"><s id="cbold"></s><b id="cbtot"></b></div><a class="btn main" id="cbgo" href="#precommande" data-open="selection">Réserver ma sélection</a></div><div class="cb-up" id="cbup"></div></div><div class="sticky"><a class="btn main" href="#offres">Précommander au prix de lancement</a></div>
 <dialog class="dlg" id="dlg"><button class="x" type="button" aria-label="Fermer" data-close>&times;</button>
-<div class="dpre" id="dpre"><img id="dpimg" alt=""><div class="dpl"><b id="dpprix"></b><s id="dpold"></s><span class="dpd">Sortie le 1er décembre · 20 h</span></div><ul id="dplist"></ul><a class="btn main" id="dpay" href="#" style="display:none;margin-top:12px;text-align:center"></a></div> <form id="dform" method="post" novalidate><h3 id="dtitle">Reçois le guide</h3><p class="sub" id="dsub"></p>
+<div class="dpre" id="dpre"><img id="dpimg" alt=""><div class="dpl"><b id="dpprix"></b><s id="dpold"></s><span class="dpd">Sortie le 1er décembre · 20 h</span></div><ul id="dplist"></ul><div id="dpays"></div><a class="btn main" id="dpay" href="#" style="display:none;margin-top:12px;text-align:center"></a></div> <form id="dform" method="post" novalidate><h3 id="dtitle">Reçois le guide</h3><p class="sub" id="dsub"></p>
 <input type="hidden" name="demande" id="ddemande">
 <div class="row2"><label>Prénom<input name="prenom" required autocomplete="given-name"></label><label>Nom<input name="nom" required autocomplete="family-name"></label></div>
 <label>Téléphone<input name="telephone" type="tel" required autocomplete="tel"></label>
@@ -625,8 +625,10 @@ var PAY={"m11": "https://buy.stripe.com/6oUdR2bdgb7nbaR6D76EU00", "m01": "https:
    var ul=document.getElementById("dplist");ul.innerHTML="";items.slice(0,6).forEach(function(x){var li=document.createElement("li");li.textContent=x;ul.appendChild(li)});
    document.getElementById("ddemande").value="Précommande : "+title+(kind==="selection"&&names.length?" ["+names.join(", ")+"]":"");
    document.getElementById("dtitle").textContent="Précommander : "+title;
-   document.getElementById("dsub").textContent="Sortie le 1er décembre 2026 à 20 h. Réserve ta place au prix de lancement : aucun paiement aujourd’hui, tu es prévenu par e-mail à la sortie.";
-   document.getElementById("dsend").textContent="Réserver ma place";var pl=kind==="precommande"?payFor(src):"",pa=document.getElementById("dpay");if(pl){pa.href=pl;pa.textContent="Payer maintenant · "+prix;pa.style.display="block";document.getElementById("dsend").textContent="Ou réserver sans payer"}else{pa.style.display="none"}}
+   document.getElementById("dsub").textContent="Sortie le 1er décembre 2026 à 20 h. Paiement sécurisé par Stripe au prix de lancement : ton accès s’ouvre dans ton espace à la sortie.";
+   document.getElementById("dsend").textContent="Réserver ma place";var pa=document.getElementById("dpay"),ps=document.getElementById("dpays"),df=document.getElementById("dform");ps.innerHTML="";pa.style.display="none";df.style.display="";
+  if(kind==="precommande"){var pl=payFor(src);if(pl){pa.href=pl;pa.textContent="Payer maintenant · "+prix;pa.style.display="block";df.style.display="none"}}
+  else if(kind==="selection"){df.style.display="none";document.querySelectorAll(".card.o input[type=checkbox]:checked").forEach(function(i){var cd=i.closest(".card"),bt=cd.querySelector("[data-open=precommande]"),lk=payFor(bt),pr=cd.querySelector(".price b");if(!lk)return;var a=document.createElement("a");a.className="btn main";a.href=lk;a.style.cssText="display:block;margin-top:10px;text-align:center";a.textContent="Payer "+cd.querySelector("h3").textContent+" · "+(pr?pr.textContent:"");ps.appendChild(a)});if(!ps.children.length)ps.textContent="Sélectionne au moins une compétence."}}
   d.showModal();}
 document.addEventListener("click",function(e){
  var o=e.target.closest("[data-open]");
