@@ -582,7 +582,7 @@ d.addEventListener('click',out);setTimeout(out,1700)})();</script>
 <p>© 2026 Alex · <a href="cgv">Conditions de vente</a> · <a href="mentions-legales">Mentions légales</a> · <a href="confidentialite">Confidentialité</a></p></div></footer>
 <div class="calcbar" id="calcbar" hidden><div class="cb-in"><div class="cb-l"><b id="cbn">0 compétence</b><span id="cbd"></span></div><div class="cb-p"><s id="cbold"></s><b id="cbtot"></b></div><a class="btn main" id="cbgo" href="#precommande" data-open="selection">Réserver ma sélection</a></div><div class="cb-up" id="cbup"></div></div><div class="sticky"><a class="btn main" href="#offres">Précommander au prix de lancement</a></div>
 <dialog class="dlg" id="dlg"><button class="x" type="button" aria-label="Fermer" data-close>&times;</button>
-<div class="dpre" id="dpre"><img id="dpimg" alt=""><div class="dpl"><b id="dpprix"></b><s id="dpold"></s><span class="dpd">Sortie le 1er décembre · 20 h</span></div><ul id="dplist"></ul></div> <form id="dform" method="post" novalidate><h3 id="dtitle">Reçois le guide</h3><p class="sub" id="dsub"></p>
+<div class="dpre" id="dpre"><img id="dpimg" alt=""><div class="dpl"><b id="dpprix"></b><s id="dpold"></s><span class="dpd">Sortie le 1er décembre · 20 h</span></div><ul id="dplist"></ul><a class="btn main" id="dpay" href="#" style="display:none;margin-top:12px;text-align:center"></a></div> <form id="dform" method="post" novalidate><h3 id="dtitle">Reçois le guide</h3><p class="sub" id="dsub"></p>
 <input type="hidden" name="demande" id="ddemande">
 <div class="row2"><label>Prénom<input name="prenom" required autocomplete="given-name"></label><label>Nom<input name="nom" required autocomplete="family-name"></label></div>
 <label>Téléphone<input name="telephone" type="tel" required autocomplete="tel"></label>
@@ -608,7 +608,7 @@ d.addEventListener('click',out);setTimeout(out,1700)})();</script>
 var SB_URL="https://phqfpqzrpdfvpewkvqdh.supabase.co",SB_KEY="sb_publishable_W-z46a0Mhkojf2X8YkTJ8A_QJNKWmHA";
 var d=document.getElementById("dlg"),f=document.getElementById("dform"),ok=document.getElementById("dok");
 if(!d||!d.showModal)return;
-function openD(kind,title,src){
+var PAY={"m11": "https://buy.stripe.com/6oUdR2bdgb7nbaR6D76EU00", "m01": "https://buy.stripe.com/bJe14g0yCejz1AhgdH6EU01", "m03": "https://buy.stripe.com/fZuaEQdlo1wN2El5z36EU02", "m07": "https://buy.stripe.com/4gMaEQ6X04IZbaR3qV6EU03", "m02": "https://buy.stripe.com/cNiaEQchk4IZ92JbXr6EU04", "m12": "https://buy.stripe.com/eVq6oAdloejzfr74uZ6EU05", "m06": "https://buy.stripe.com/aFaeV6chkejz4MtaTn6EU06", "m04": "https://buy.stripe.com/9B6eV66X0cbr4Mt4uZ6EU07", "m08": "https://buy.stripe.com/28E3cogxAcbren3d1v6EU08", "m13": "https://buy.stripe.com/4gM5kw2GKgrHen31iN6EU09", "m14": "https://buy.stripe.com/00w5kw4OSdfvceVd1v6EU0a", "m05": "https://buy.stripe.com/cNi00c0yC2AR92J7Hb6EU0b", "m09": "https://buy.stripe.com/5kQeV60yC4IZen38Lf6EU0c", "m10": "https://buy.stripe.com/aFacMY0yC7Vbfr74uZ6EU0d", "guide-andorre": "https://buy.stripe.com/9B6cMY4OSdfven36D76EU0e", "guide-mentorat": "https://buy.stripe.com/14A9AM3KOejz7YF1iN6EU0f", "guide-suisse": "https://buy.stripe.com/fZufZaeps1wN4Mt0eJ6EU0g", "pack": "https://buy.stripe.com/fZubIU6X0grHdiZ2mR6EU0h", "vip": "https://buy.stripe.com/9B66oAchk7Vb2El8Lf6EU0i"},PAYKW={"guide-andorre":"Andorre","guide-mentorat":"Mentorat","guide-suisse":"Suisse","pack":"Pack Univers"};function payFor(s){var c=s&&s.closest?s.closest(".card"):null,id=c&&c.id;if(id&&PAY[id])return PAY[id];var t=(s&&s.getAttribute&&s.getAttribute("data-title"))||"";for(var k in PAYKW){if(t.indexOf(PAYKW[k])>-1)return PAY[k]}return ""}function openD(kind,title,src){
  f.reset();f.style.display="grid";ok.style.display="none";
  var call=kind==="appel"||kind==="vip";var vip=kind==="vip";
  document.getElementById("dcall").style.display=call?"grid":"none";
@@ -626,7 +626,7 @@ function openD(kind,title,src){
    document.getElementById("ddemande").value="Précommande : "+title+(kind==="selection"&&names.length?" ["+names.join(", ")+"]":"");
    document.getElementById("dtitle").textContent="Précommander : "+title;
    document.getElementById("dsub").textContent="Sortie le 1er décembre 2026 à 20 h. Réserve ta place au prix de lancement : aucun paiement aujourd’hui, tu es prévenu par e-mail à la sortie.";
-   document.getElementById("dsend").textContent="Réserver ma place"}
+   document.getElementById("dsend").textContent="Réserver ma place";var pl=kind==="precommande"?payFor(src):"",pa=document.getElementById("dpay");if(pl){pa.href=pl;pa.textContent="Payer maintenant · "+prix;pa.style.display="block";document.getElementById("dsend").textContent="Ou réserver sans payer"}else{pa.style.display="none"}}
   d.showModal();}
 document.addEventListener("click",function(e){
  var o=e.target.closest("[data-open]");
