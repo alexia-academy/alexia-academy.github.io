@@ -739,4 +739,4 @@ function close(){m.hidden=true;document.body.classList.remove('vx-lock');op.focu
 op.addEventListener('click',open);x.addEventListener('click',close);m.addEventListener('click',function(e){if(e.target===m)close()});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden)close()});
 box.addEventListener('click',function(e){var t=e.target.closest('.vx-t');if(!t)return;var c=op.querySelector('.vx-cur');c.innerHTML='';var im=t.querySelector('img').cloneNode();c.appendChild(im);c.appendChild(document.createTextNode(t.querySelector('b').textContent));op.querySelector('em').textContent='Changer';setTimeout(function(){m.hidden=true;document.body.classList.remove('vx-lock');document.getElementById('vxgo').focus()},180)});
-sel.focus=function(){open()};})();</script></body></html>
+sel.focus=function(){open()};})();</script><script src="alex-monitor.js"></script></body></html>
