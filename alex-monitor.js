@@ -173,3 +173,20 @@
   /* visiteur non connecté qui regarde 3 produits : on lui propose le compte + -10 % */
   if(!tok()&&vues>=3){setTimeout(proposerInvite,15000)}
 })();
+
+/* === Protections de base (ajout 21/11) : vidéos non téléchargeables, anti-iframe, anti-copie des médias === */
+(function(){
+ try{ if(window.top!==window.self){ window.top.location=window.self.location; } }catch(e){ document.documentElement.style.display="none"; }
+ function proteger(v){
+  if(v.__alexP) return; v.__alexP=1;
+  v.setAttribute("controlsList","nodownload noremoteplayback noplaybackrate".replace(" noplaybackrate",""));
+  v.setAttribute("disablePictureInPicture","");
+  v.setAttribute("disableRemotePlayback","");
+  v.addEventListener("contextmenu",function(e){e.preventDefault();});
+ }
+ function tout(){ var l=document.querySelectorAll("video"); for(var i=0;i<l.length;i++) proteger(l[i]); }
+ tout();
+ new MutationObserver(tout).observe(document.documentElement,{childList:true,subtree:true});
+ document.addEventListener("contextmenu",function(e){ var t=e.target; if(t&&(t.tagName==="VIDEO"||t.tagName==="IMG"||(t.closest&&t.closest(".pl")))) e.preventDefault(); });
+ document.addEventListener("dragstart",function(e){ var t=e.target; if(t&&(t.tagName==="IMG"||t.tagName==="VIDEO")) e.preventDefault(); });
+})();
