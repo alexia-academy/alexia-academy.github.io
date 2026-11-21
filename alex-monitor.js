@@ -1,3 +1,12 @@
+/* Ouverture en local (fichier sur l'ordinateur) : les liens sans extension (espace, cgv, pourquoi-ia…) pointent vers le bon fichier .html. Sans effet en ligne. */
+(function(){if(location.protocol!=="file:")return;
+  function cible(h,base){if(!h||/^(https?:|mailto:|tel:|javascript:|#)/i.test(h))return null;var m=h.match(/^([^?#]*)(.*)$/),p=m[1],rest=m[2],root=base.replace(/\/(ventes\/)?[^\/]*$/,"/");if(base.indexOf("/ventes/")>-1)root=base.slice(0,base.indexOf("/ventes/")+1);
+    var url=p.charAt(0)==="/"?root+p.replace(/^\/+/,""):new URL(p||".",base).href.split(/[?#]/)[0];
+    if(url.slice(-1)==="/"||p===""||p==="/")url=(p.charAt(0)==="/"?root:url.replace(/[^\/]*$/,""))+"index.html";
+    else if(!/\.[a-z0-9]+$/i.test(url.split("/").pop()))url+=".html";
+    return url+rest}
+  window.__cibleLocale=cible;
+  document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a)return;var c=cible(a.getAttribute("href"),location.href);if(c&&c!==a.href&&!a.target){e.preventDefault();location.href=c}},true)})();
 /* Surveillance du site : toute erreur est enregistrée dans Supabase (table alex_errors) pour qu'Ali soit prévenu. */
 (function(){
   var URL="https://phqfpqzrpdfvpewkvqdh.supabase.co/rest/v1/alex_errors",KEY="sb_publishable_W-z46a0Mhkojf2X8YkTJ8A_QJNKWmHA",sent=0,seen={};
@@ -78,6 +87,7 @@
   document.addEventListener("click",function(e){
     var a=e.target.closest&&e.target.closest('a[href^="https://buy.stripe.com/"]');if(!a||ESPACE)return;
     e.preventDefault();var link=a.getAttribute("href");localStorage.setItem("alex_pay_click",String(Date.now()));
+    if(link==="https://buy.stripe.com/fZubIU6X0grHdiZ2mR6EU0h"){var sp=tok();if(!sp){localStorage.setItem("alex_next_vip","pack");location.href="/espace?inscription=1";return}fetch(SB+"/functions/v1/paiement-vip",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+sp.access_token,apikey:KEY},body:JSON.stringify({action:"checkout",module:"pack"})}).then(function(r){return r.json()}).then(function(j){location.href=(j&&j.url)?j.url:finalUrl(link)}).catch(function(){location.href=finalUrl(link)});return}
     if(!tok()){localStorage.setItem("alex_next",link);location.href="/espace?inscription=1";return}
     location.href=finalUrl(link)},true);
   if(ESPACE||/^\/(cgv|mentions-legales|confidentialite)/.test(P)||location.protocol==="file:")return;
