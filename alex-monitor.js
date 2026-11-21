@@ -12,6 +12,7 @@
   var URL="https://phqfpqzrpdfvpewkvqdh.supabase.co/rest/v1/alex_errors",KEY="sb_publishable_W-z46a0Mhkojf2X8YkTJ8A_QJNKWmHA",sent=0,seen={};
   function report(kind,msg,detail){
     try{
+      if(location.protocol==="file:")return;
       msg=String(msg||"erreur").slice(0,480);var k=kind+msg;
       if(sent>=5||seen[k])return;seen[k]=1;sent++;
       fetch(URL,{method:"POST",keepalive:true,headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json",Prefer:"return=minimal"},
@@ -20,7 +21,7 @@
   }
   window.alexReport=report;
   window.addEventListener("error",function(e){
-    if(e.target&&e.target!==window&&(e.target.src||e.target.href)){report("ressource","Fichier introuvable : "+(e.target.src||e.target.href));return}
+    if(e.target&&e.target!==window&&(e.target.src||e.target.href)){var fu=e.target.src||e.target.href;if(location.protocol==="file:"||document.visibilityState==="hidden")return;fetch(fu,{method:"HEAD",cache:"no-store"}).then(function(r){if(r.status===404||r.status===410)report("ressource","Fichier introuvable : "+fu)}).catch(function(){});return}
     report("js",e.message,(e.filename||"")+":"+(e.lineno||"")+":"+(e.colno||""));
   },true);
   window.addEventListener("unhandledrejection",function(e){
