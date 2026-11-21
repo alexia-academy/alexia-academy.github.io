@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Espace gérant · ALEX IA</title>
-<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="icon" type="image/png" href="assets/favicon-rond.png">
 <style>
 :root{--bg:#050816;--card:rgba(255,255,255,.045);--line:rgba(255,255,255,.1);--txt:#f2f4ff;--mut:#9aa4c8;--a:#7c5cff;--b:#22d3ee;--gold:#F5C451}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -7,7 +7,7 @@ body{font:15px/1.55 Inter,system-ui,Segoe UI,sans-serif;background:radial-gradie
 a{color:var(--b)}button{font:inherit;color:inherit;cursor:pointer}
 #shell{display:none;grid-template-columns:230px 1fr;min-height:100vh}
 .side{position:sticky;top:0;height:100vh;padding:18px 12px;border-right:1px solid var(--line);background:rgba(8,12,34,.72);backdrop-filter:blur(18px);display:flex;flex-direction:column;gap:5px}
-.logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.12em;padding:4px 8px 4px}.logo img{width:32px;height:32px;border-radius:9px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.12em;padding:4px 8px 4px}.logo img{width:32px;height:32px;border-radius:50%}
 .role{font-size:.72rem;color:var(--gold);font-weight:800;letter-spacing:.14em;padding:0 8px 14px;text-transform:uppercase}
 .nav{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border-radius:12px;border:0;background:transparent;color:var(--mut);font-weight:700;position:relative}
 .nav:hover{background:var(--card);color:#fff}.nav.on{background:linear-gradient(90deg,rgba(124,92,255,.28),rgba(34,211,238,.08));color:#fff}
@@ -39,9 +39,9 @@ tr.nv td{background:rgba(255,77,109,.06)}
 .mobtabs{display:none;gap:6px;overflow:auto;margin-bottom:14px}.mobtabs button{white-space:nowrap}
 #login{min-height:100vh;display:grid;place-items:center;padding:20px}.lbox{max-width:380px;text-align:center;padding:30px;border-radius:22px;background:var(--card);border:1px solid var(--line)}
 </style></head><body>
-<div id="login"><div class="lbox"><div class="logo" style="justify-content:center"><img src="assets/logo-alex.png" alt="">ALEX</div><div class="role" style="padding:6px 0 14px">Espace gérant</div><p id="lmsg" class="mut">Chargement…</p></div></div>
+<div id="login"><div class="lbox"><div class="logo" style="justify-content:center"><img src="assets/logo-rond.png" alt="">ALEX</div><div class="role" style="padding:6px 0 14px">Espace gérant</div><p id="lmsg" class="mut">Chargement…</p></div></div>
 <div id="shell">
-<aside class="side"><div class="logo"><img src="assets/logo-alex.png" alt="">ALEX</div><div class="role">Espace gérant</div><div id="nav"></div><div class="grow"></div><a class="nav" href="espace.html" id="toesp">Voir l'espace membre</a><a class="nav" href="index.html" id="tosite">Voir le site</a></aside>
+<aside class="side"><div class="logo"><img src="assets/logo-rond.png" alt="">ALEX</div><div class="role">Espace gérant</div><div id="nav"></div><div class="grow"></div><a class="nav" href="espace.html" id="toesp">Voir l'espace membre</a><a class="nav" href="index.html" id="tosite">Voir le site</a></aside>
 <main><div class="top"><h1 id="title">Tableau de bord</h1><div style="display:flex;gap:8px;align-items:center"><button class="btn g sm" id="refresh">Actualiser</button><span class="me" id="who"></span></div></div><div class="mobtabs" id="mnav"></div><div id="view"></div></main>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="alex-monitor.js"></script>
