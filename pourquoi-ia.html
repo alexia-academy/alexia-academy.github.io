@@ -72,22 +72,79 @@ section{padding:110px 0;position:relative}
 .final{text-align:center;overflow:hidden;isolation:isolate}.final:before{content:"";position:absolute;left:50%;top:50%;width:min(900px,120vw);aspect-ratio:1;transform:translate(-50%,-50%);z-index:-1;background:radial-gradient(circle,rgba(124,92,255,.35),rgba(34,211,238,.12) 45%,transparent 70%);filter:blur(20px);animation:pulse 7s ease-in-out infinite}
 .final h2{font-weight:800;font-size:clamp(2.2rem,5.6vw,4.2rem);letter-spacing:-.03em;line-height:1.05}.final p{color:#c8cff0;font-size:1.15rem;margin:16px auto 30px;max-width:560px}
 footer{border-top:1px solid var(--line);padding:30px 0 50px;color:#7f87b3;font-size:.85rem}footer p+p{margin-top:8px}footer a{text-decoration:underline}
+
+/* trois idées */
+.why3 .idea{padding:0}.idea .ib{padding:34px 28px 30px;display:flex;flex-direction:column;height:100%}
+.idea:after{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--ac,#7c5cff),transparent);opacity:.9}
+.i1{--ac:#7c5cff}.i2{--ac:#22d3ee}.i3{--ac:#FF4FD8}
+.idea .num{-webkit-text-stroke:1.5px var(--ac)}
+.idea:hover{border-color:color-mix(in srgb,var(--ac) 55%,transparent);box-shadow:0 20px 50px rgba(0,0,0,.45),0 0 34px color-mix(in srgb,var(--ac) 25%,transparent)}
+.viz{margin-top:auto;padding-top:22px}
+.v1 .row{display:grid;grid-template-columns:78px 1fr auto;align-items:center;gap:10px;margin-top:10px;font-size:.8rem;color:var(--muted)}
+.v1 .bar{display:block;height:8px;border-radius:99px;background:#2a3170;width:0;transition:width 1.4s cubic-bezier(.2,.7,.2,1) .5s}
+.v1 .bar.short{background:linear-gradient(90deg,var(--a),var(--b))}
+.idea.in .v1 .bar.long{width:100%}.idea.in .v1 .bar.short{width:14%}
+.v1 em{font-style:normal;color:#d3d8f5;white-space:nowrap}
+.v2{display:flex;flex-wrap:wrap;gap:8px}.v2 span{padding:7px 13px;border-radius:99px;border:1px solid rgba(34,211,238,.4);background:rgba(34,211,238,.08);color:#bdf3ff;font-size:.82rem;font-weight:700}
+.v3{min-height:44px;display:flex;align-items:center}.v3 b{font:800 1.5rem 'Plus Jakarta Sans',sans-serif;background:linear-gradient(90deg,#FF4FD8,var(--a));-webkit-background-clip:text;background-clip:text;color:transparent;transition:opacity .35s,transform .35s}.v3 b.out{opacity:0;transform:translateY(8px)}
+/* fond de la section finale */
+.final .fbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;opacity:.32;-webkit-mask:linear-gradient(180deg,transparent,#000 35%,#000 70%,transparent);mask:linear-gradient(180deg,transparent,#000 35%,#000 70%,transparent)}
+
+#spot{position:fixed;inset:0;pointer-events:none;z-index:2;background:radial-gradient(520px circle at var(--sx,50%) var(--sy,30%),rgba(124,92,255,.09),transparent 62%)}
+.mag{transform:translate(var(--tx,0px),var(--ty,0px))}.mag:hover{transform:translate(var(--tx,0px),calc(var(--ty,0px) - 2px))}
+/* démonstration animée */
+.demo{padding-top:40px}.dwrap{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;align-items:stretch}
+.dterm{padding:0;font-family:Consolas,'Courier New',monospace;background:rgba(6,9,26,.8)}
+.dbar{display:flex;align-items:center;gap:7px;padding:12px 16px;border-bottom:1px solid var(--line)}.dbar i{width:10px;height:10px;border-radius:50%;background:#2a3170}.dbar span{margin-left:10px;font:600 .78rem Inter,sans-serif;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.dprompt{padding:22px 22px 8px;font-size:1.02rem;line-height:1.6;min-height:96px;color:#e9ecff}.dp{color:var(--b);margin-right:10px}.dcur{display:inline-block;width:9px;height:1.1em;background:var(--b);margin-left:3px;vertical-align:-3px;animation:blink 1s steps(2) infinite}@keyframes blink{50%{opacity:0}}
+.dsteps{list-style:none;padding:8px 22px 6px;display:grid;gap:11px}.dsteps li{display:flex;align-items:center;gap:12px;font:600 .94rem Inter,sans-serif;color:#6f78a8;opacity:.35;transition:opacity .4s,color .4s}
+.dsteps li:before{content:"";width:16px;height:16px;border-radius:50%;border:2px solid #3a4390;flex:none}
+.dsteps li.run{opacity:1;color:#d6dbff}.dsteps li.run:before{border-color:var(--b) transparent var(--b) transparent;animation:spin .8s linear infinite}
+.dsteps li.done{opacity:1;color:#fff}.dsteps li.done:before{content:"\2713";display:grid;place-items:center;font-size:.62rem;font-weight:900;color:#04060f;border:0;background:linear-gradient(135deg,var(--a),var(--b));animation:none;box-shadow:0 0 14px rgba(34,211,238,.6)}
+.dready{margin:14px 22px 22px;padding:10px 14px;border-radius:12px;font:800 .9rem 'Plus Jakarta Sans',sans-serif;color:#04060f;background:linear-gradient(90deg,var(--a),var(--b));opacity:0;transform:translateY(8px);transition:.5s;width:max-content}.dready.on{opacity:1;transform:none;box-shadow:0 0 30px rgba(34,211,238,.45)}
+.dout{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1.4fr 1fr;gap:14px}
+.o{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(150deg,#12183f,#080b20);opacity:0;transform:translateY(18px) scale(.96);transition:opacity .6s,transform .6s}.o.on{opacity:1;transform:none}
+.o small{position:absolute;left:12px;bottom:10px;font:800 .7rem 'Plus Jakarta Sans';letter-spacing:.14em;text-transform:uppercase;color:#cfd5f7;z-index:2}
+.o1{grid-column:span 3}.o1 img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.o1:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(4,6,15,.85))}
+.play{position:absolute;left:50%;top:46%;width:56px;height:56px;border-radius:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.7);backdrop-filter:blur(6px);z-index:2}.play:before{content:"";position:absolute;left:23px;top:17px;border-left:16px solid #fff;border-top:11px solid transparent;border-bottom:11px solid transparent}
+.wave{position:absolute;left:14px;right:14px;top:18px;bottom:34px;display:flex;align-items:center;gap:5px}.wave i{flex:1;border-radius:99px;background:linear-gradient(var(--a),var(--b));height:30%;animation:wv 1.1s ease-in-out infinite}
+.wave i:nth-child(2n){animation-delay:.15s}.wave i:nth-child(3n){animation-delay:.3s}.wave i:nth-child(5n){animation-delay:.45s}@keyframes wv{50%{height:90%}}
+.lines{position:absolute;left:14px;right:14px;top:18px;display:grid;gap:9px}.lines i{height:7px;border-radius:99px;background:rgba(255,255,255,.22)}.lines i:nth-child(1){width:92%}.lines i:nth-child(2){width:78%}.lines i:nth-child(3){width:86%}.lines i:nth-child(4){width:54%}
+.pal{position:absolute;left:14px;right:14px;top:16px;bottom:34px;display:grid;grid-template-columns:1fr 1fr;gap:8px}.pal i{border-radius:10px}.pal i:nth-child(1){background:linear-gradient(135deg,#FF4FD8,#7c5cff)}.pal i:nth-child(2){background:linear-gradient(135deg,#22d3ee,#3B82F6)}.pal i:nth-child(3){background:linear-gradient(135deg,#F97316,#F5C451)}.pal i:nth-child(4){background:linear-gradient(135deg,#22C55E,#14B8A6)}
+.dnote{margin-top:16px;text-align:center;color:#7f87b3;font-size:.8rem}
+@media(max-width:900px){.dwrap{grid-template-columns:1fr}.dout{grid-template-rows:200px 120px}}
+@media(prefers-reduced-motion:reduce){.o{opacity:1;transform:none}.dready{opacity:1;transform:none}.dsteps li{opacity:1}}
 @media(max-width:900px){.why3,.tl{grid-template-columns:1fr}.tl:before{display:none}.step:before{display:none}.step{min-height:380px}.bento{grid-template-columns:1fr;grid-auto-rows:230px}.bento .bt{grid-column:auto!important}section{padding:80px 0}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}.rv{opacity:1;transform:none;transition:none}}
 </style></head><body>
-<div id="prog"></div>
+<div id="prog"></div><div id="spot"></div>
 <header class="top"><div class="wrap"><a class="logo" href="index.html"><img src="assets/logo-rond.png" alt="" width="32" height="32">ALEX</a><a class="btn sm" href="index.html#offres">Voir les compétences</a></div></header>
 <main>
 <section class="hero"><div class="bg"><img src="assets/pourquoi/pq-hero.jpg" alt="" onerror="this.remove()"></div><canvas id="net"></canvas><div class="orb" id="orb"><i></i><i></i><i></i></div>
-<div class="wrap"><span class="eyebrow">En 2 minutes</span><h1>Pourquoi tout sera<br>lié à l'<span class="grad">IA</span></h1><p class="lead">Mon avis : c'est le plus grand changement depuis internet. Voilà pourquoi, simplement.</p><div class="cta"><a class="btn" href="index.html#gratuit">Commencer gratuitement</a><a class="btn ghost" href="#essentiel">Lire l'essentiel</a></div></div><div class="scrollhint">Fais défiler</div></section>
+<div class="wrap"><span class="eyebrow">En 2 minutes</span><h1>Pourquoi tout sera<br>lié à l'<span class="grad">IA</span></h1><p class="lead">Mon avis : c'est le plus grand changement depuis internet. Voilà pourquoi, simplement.</p><div class="cta"><a class="btn mag" href="index.html#gratuit">Commencer gratuitement</a><a class="btn ghost mag" href="#essentiel">Lire l'essentiel</a></div></div><div class="scrollhint">Fais défiler</div></section>
 
 <section id="essentiel"><div class="wrap"><div class="sh rv"><span class="eyebrow">L'essentiel</span><h2>En 30 secondes, trois idées</h2><p>Pas de jargon. Juste ce qu'il faut retenir.</p></div>
-<div class="why3"><div class="glass rv" style="--d:.0s"><div style="padding:34px 28px 32px"><span class="num">1</span><h3>Elle travaille pour toi</h3><p>Créer, écrire, monter, répondre : l'IA fait en minutes ce qui prenait des heures.</p></div></div>
-<div class="glass rv" style="--d:.12s"><div style="padding:34px 28px 32px"><span class="num">2</span><h3>Elle est accessible</h3><p>Pas besoin de savoir coder. Beaucoup d'outils sont gratuits pour commencer.</p></div></div>
-<div class="glass rv" style="--d:.24s"><div style="padding:34px 28px 32px"><span class="num">3</span><h3>Elle touche tous les métiers</h3><p>Ce n'est pas réservé aux techniciens : commerçants, créateurs et indépendants s'y mettent.</p></div></div></div></div></section>
+<div class="why3">
+<div class="glass idea i1 rv" style="--d:.0s"><div class="ib"><span class="num">1</span><h3>Elle travaille pour toi</h3><p>Créer, écrire, monter, répondre : l'IA fait en minutes ce qui prenait des heures.</p>
+<div class="viz v1"><div class="row"><small>Avant</small><i class="bar long"></i><em>des heures</em></div><div class="row"><small>Avec l'IA</small><i class="bar short"></i><em>quelques minutes</em></div></div></div></div>
+<div class="glass idea i2 rv" style="--d:.12s"><div class="ib"><span class="num">2</span><h3>Elle est accessible</h3><p>Pas besoin de savoir coder. Beaucoup d'outils sont gratuits pour commencer.</p>
+<div class="viz v2"><span>Sans coder</span><span>Outils gratuits</span><span>Dès le premier jour</span></div></div></div>
+<div class="glass idea i3 rv" style="--d:.24s"><div class="ib"><span class="num">3</span><h3>Elle touche tous les métiers</h3><p>Ce n'est pas réservé aux techniciens : commerçants, créateurs et indépendants s'y mettent.</p>
+<div class="viz v3"><b id="mots">Restaurateur</b></div></div></div></div></div></section>
 
 <div class="mq" aria-hidden="true"><div><span>Vidéo</span><span>Voix</span><span>Images</span><span>Musique</span><span>Applications</span><span>Assistants</span><span>Publicité</span><span>Vidéo</span><span>Voix</span><span>Images</span><span>Musique</span><span>Applications</span><span>Assistants</span><span>Publicité</span></div></div>
 
+
+<section class="demo" id="demo"><div class="wrap"><div class="sh rv"><span class="eyebrow">En direct</span><h2>Une idée. Une phrase. Le reste, c'est l'IA.</h2><p>Regarde ce qui se passe quand on lui demande une vidéo pub pour un restaurant.</p></div>
+<div class="dwrap rv"><div class="dterm glass"><div class="dbar"><i></i><i></i><i></i><span>assistant IA</span></div>
+<div class="dprompt"><span class="dp">&gt;</span><span id="dtype"></span><span class="dcur"></span></div>
+<ul class="dsteps" id="dsteps"><li>Idée et script</li><li>Images générées</li><li>Voix off et musique</li><li>Montage de la vidéo</li></ul>
+<div class="dready" id="dready">Résultat prêt</div></div>
+<div class="dout" id="dout"><div class="o o1"><img src="assets/pourquoi/pq-restaurant.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="play"></span><small>Vidéo</small></div>
+<div class="o o2"><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><small>Voix off</small></div>
+<div class="o o3"><div class="lines"><i></i><i></i><i></i><i></i></div><small>Script</small></div>
+<div class="o o4"><div class="pal"><i></i><i></i><i></i><i></i></div><small>Visuels</small></div></div></div>
+<p class="dnote">Exemple illustré : les outils et les résultats varient selon ce que tu utilises.</p></div></section>
 <section><div class="wrap"><div class="sh rv"><span class="eyebrow">Le basculement</span><h2>Avant, maintenant, demain</h2><p>En quelques années, ce qui demandait une équipe tient dans les mains d'une seule personne.</p></div>
 <div class="tl"><article class="step s1 rv" style="--d:0s"><div class="pic"><img src="assets/pourquoi/pq-avant.jpg" alt="" loading="lazy" onerror="this.remove()"></div><div class="tx"><small>Avant</small><h3>Une équipe et des semaines</h3><p>Il fallait une équipe, du matériel et des semaines pour une vidéo pro, un site ou un service client.</p></div></article>
 <article class="step s2 rv" style="--d:.15s"><div class="pic"><img src="assets/pourquoi/pq-maintenant.jpg" alt="" loading="lazy" onerror="this.remove()"></div><div class="tx"><small>Maintenant</small><h3>Une personne, des outils</h3><p>Une personne seule crée des vidéos, des visuels, des textes et des assistants avec des outils souvent gratuits.</p></div></article>
@@ -99,11 +156,26 @@ footer{border-top:1px solid var(--line);padding:30px 0 50px;color:#7f87b3;font-s
 <article class="bt b3 glass rv"><img src="assets/pourquoi/pq-freelance.jpg" alt="" loading="lazy" onerror="this.remove()"><div class="tx"><h3>Freelance</h3><p>Plus de clients, livrés plus vite, avec des assistants IA.</p></div></article>
 <article class="bt b4 glass rv" style="--d:.1s"><img src="assets/pourquoi/pq-ecommerce.jpg" alt="" loading="lazy" onerror="this.remove()"><div class="tx"><h3>E-commerçant</h3><p>Visuels, vidéos produit et pages créés en une fraction du temps.</p></div></article></div></div></section>
 
-<section class="final"><div class="wrap rv"><h2>Et maintenant ?</h2><p>Teste gratuitement, puis choisis la compétence qui correspond à ton projet.</p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a class="btn" href="index.html#gratuit">Commencer gratuitement</a><a class="btn ghost" href="index.html#offres">Voir les compétences</a></div></div></section>
+<section class="final"><img class="fbg" src="assets/pourquoi/pq-hero.jpg" alt="" loading="lazy" onerror="this.remove()"><div class="wrap rv"><h2>Et maintenant ?</h2><p>Teste gratuitement, puis choisis la compétence qui correspond à ton projet.</p><div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a class="btn" href="index.html#gratuit">Commencer gratuitement</a><a class="btn ghost" href="index.html#offres">Voir les compétences</a></div></div></section>
 </main>
 <footer><div class="wrap"><p>Cette page présente mon analyse personnelle de l'évolution de l'IA. Elle ne constitue ni un conseil financier, ni une garantie de résultat.</p><p>© 2026 Alex · <a href="index.html">Retour à l'accueil</a></p></div></footer>
 <script>(function(){
 var red=matchMedia("(prefers-reduced-motion:reduce)").matches;
+/* démonstration animée */
+(function(){var d=document.getElementById("demo");if(!d)return;var T="Crée une vidéo pub pour mon restaurant, avec une voix et de la musique.",ty=document.getElementById("dtype"),st=[].slice.call(document.querySelectorAll("#dsteps li")),rd=document.getElementById("dready"),os=[].slice.call(document.querySelectorAll("#dout .o")),run=0,tm=[];
+function clr(){tm.forEach(clearTimeout);tm=[]}function at(f,t){tm.push(setTimeout(f,t))}
+function reset(){ty.textContent="";st.forEach(function(x){x.className=""});rd.classList.remove("on");os.forEach(function(x){x.classList.remove("on")})}
+function play(){clr();reset();var i=0;(function t(){ty.textContent=T.slice(0,++i);if(i<T.length)at(t,34);else{st.forEach(function(x,k){at(function(){x.className="run"},500+k*900);at(function(){x.className="done"},1150+k*900)});at(function(){rd.classList.add("on")},500+st.length*900);os.forEach(function(o,k){at(function(){o.classList.add("on")},700+st.length*900+k*260)});at(function(){if(run)play()},500+st.length*900+4800)}})()}
+if(red){ty.textContent=T;st.forEach(function(x){x.className="done"});rd.classList.add("on");os.forEach(function(o){o.classList.add("on")});return}
+new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){if(!run){run=1;play()}}else{run=0;clr()}})},{threshold:.35}).observe(d)})();
+/* titre : effet de décodage */
+(function(){var g=document.querySelector(".hero h1 .grad");if(!g||red)return;var fin=g.textContent,C="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&",n=0;g.style.display="inline-block";var iv=setInterval(function(){n++;var o="";for(var i=0;i<fin.length;i++)o+=(n>8+i*5)?fin[i]:C[Math.floor(Math.random()*C.length)];g.textContent=o;if(n>8+fin.length*5){clearInterval(iv);g.textContent=fin}},55)})();
+/* halo qui suit la souris + boutons magnétiques */
+var sp=document.getElementById("spot");if(!red){addEventListener("mousemove",function(e){sp.style.setProperty("--sx",e.clientX+"px");sp.style.setProperty("--sy",e.clientY+"px")});
+document.querySelectorAll(".mag").forEach(function(b){b.addEventListener("mousemove",function(e){var r=b.getBoundingClientRect();b.style.setProperty("--tx",((e.clientX-r.left-r.width/2)*.22)+"px");b.style.setProperty("--ty",((e.clientY-r.top-r.height/2)*.3)+"px")});b.addEventListener("mouseleave",function(){b.style.setProperty("--tx","0px");b.style.setProperty("--ty","0px")})})}
+/* mots des métiers */
+var mots=["Restaurateur","Coiffeur","Freelance","Commerçant","Créateur de contenu","E-commerçant","Indépendant"],mi=0,mb=document.getElementById("mots");
+if(mb&&!red){setInterval(function(){mb.classList.add("out");setTimeout(function(){mi=(mi+1)%mots.length;mb.textContent=mots[mi];mb.classList.remove("out")},350)},2200)}
 /* barre de progression */
 var pg=document.getElementById("prog");function sp(){var h=document.documentElement;pg.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+"%"}addEventListener("scroll",sp,{passive:true});sp();
 /* apparition au défilement */
