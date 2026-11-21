@@ -36,7 +36,7 @@ p{color:#c9cfee;margin:0 0 14px}.etat{margin:20px 0;padding:14px 16px;border-rad
     fetch(SB+"/rest/v1/alex_purchases?select=module_id,created_at&order=created_at.desc&limit=1",{headers:{apikey:KEY,Authorization:"Bearer "+s.access_token}})
       .then(function(r){return r.json()}).then(function(j){
         var recent=Array.isArray(j)&&j.length&&(Date.now()-new Date(j[0].created_at).getTime())<2*3600*1000;
-        if(recent){etat.className="etat ok";etat.textContent="Commande enregistrée sur ton compte ("+s.user.email+"). Retrouve-la dans ton espace membre.";return}
+        if(recent){try{var PR={m11:47,m01:67,m02:67,m04:67,m13:67,m14:67,m03:97,m05:97,m06:97,m07:97,m08:97,m09:97,m10:97,m12:97,"guide-andorre":27,"guide-mentorat":27,"guide-suisse":27,pack:497,vip:39},k="alex_px_achat_"+j[0].created_at;if(!localStorage.getItem(k)){localStorage.setItem(k,"1");if(window.alexTrack)alexTrack("achat",j[0].module_id,null,true);if(window.alexPixel)alexPixel("Purchase",{id:j[0].module_id,value:PR[j[0].module_id]||0})}}catch(_){}etat.className="etat ok";etat.textContent="Commande enregistrée sur ton compte ("+s.user.email+"). Retrouve-la dans ton espace membre.";return}
         if(essais<12){setTimeout(verifier,5000);return}
         etat.textContent="Ton paiement est bien reçu. L'enregistrement peut prendre quelques minutes : retrouve ta commande dans ton espace, ou écris-nous si rien n'apparaît après 1 heure.";
       }).catch(function(){if(essais<12)setTimeout(verifier,5000)});
