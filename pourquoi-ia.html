@@ -171,7 +171,7 @@ new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting
 /* titre : effet de décodage */
 (function(){var g=document.querySelector(".hero h1 .grad");if(!g||red)return;var fin=g.textContent,C="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&",n=0;g.style.display="inline-block";var iv=setInterval(function(){n++;var o="";for(var i=0;i<fin.length;i++)o+=(n>8+i*5)?fin[i]:C[Math.floor(Math.random()*C.length)];g.textContent=o;if(n>8+fin.length*5){clearInterval(iv);g.textContent=fin}},55)})();
 /* halo qui suit la souris + boutons magnétiques */
-var sp=document.getElementById("spot");if(!red){addEventListener("mousemove",function(e){sp.style.setProperty("--sx",e.clientX+"px");sp.style.setProperty("--sy",e.clientY+"px")});
+var spotEl=document.getElementById("spot");if(!red&&spotEl){addEventListener("mousemove",function(e){spotEl.style.setProperty("--sx",e.clientX+"px");spotEl.style.setProperty("--sy",e.clientY+"px")});
 document.querySelectorAll(".mag").forEach(function(b){b.addEventListener("mousemove",function(e){var r=b.getBoundingClientRect();b.style.setProperty("--tx",((e.clientX-r.left-r.width/2)*.22)+"px");b.style.setProperty("--ty",((e.clientY-r.top-r.height/2)*.3)+"px")});b.addEventListener("mouseleave",function(){b.style.setProperty("--tx","0px");b.style.setProperty("--ty","0px")})})}
 /* mots des métiers */
 var mots=["Restaurateur","Coiffeur","Freelance","Commerçant","Créateur de contenu","E-commerçant","Indépendant"],mi=0,mb=document.getElementById("mots");
