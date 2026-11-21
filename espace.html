@@ -158,11 +158,35 @@ main{max-width:1240px;margin:0 auto;width:100%;padding-top:26px}
 .asec{text-align:center;color:#7f87b3;font-size:.76rem}
 @media(max-width:900px){#auth{grid-template-columns:1fr!important}.auth-art{min-height:300px!important}.auth-art .atxt{bottom:20px}.auth-art .asub,.alist{display:none}.auth-art .atxt h1{font-size:1.9rem}.auth-art .aglow{top:30%}.auth-box{padding:22px 14px 40px!important}}
 @media(prefers-reduced-motion:reduce){.auth-art .aimg,.auth-art .aglow{animation:none}}
+
+/* === Connexion v3 : texte hors de l'image, ouverture animée === */
+@property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes ang{to{--ang:360deg}}
+@keyframes aflash{0%{opacity:0;transform:scale(1.38);filter:brightness(2.6) blur(12px)}55%{opacity:1}100%{opacity:1;transform:scale(1);filter:none}}
+@keyframes rise{from{opacity:0;transform:translateY(22px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+@keyframes cardin{from{opacity:0;transform:translateX(46px) scale(.97);filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
+@keyframes raysw{from{opacity:.25;transform:translateX(-50%) rotate(-4deg)}to{opacity:.95;transform:translateX(-50%) rotate(4deg)}}
+@media(min-width:901px){
+ .auth-art .aimg{inset:-3% -3% 34% -3%;-webkit-mask:linear-gradient(180deg,#000 70%,transparent 100%);mask:linear-gradient(180deg,#000 70%,transparent 100%);animation:aflash 2s cubic-bezier(.2,.7,.2,1) both,kb 26s ease-in-out 2s infinite alternate}
+ .auth-art:before{background:linear-gradient(180deg,rgba(4,6,15,.1) 0%,rgba(4,6,15,0) 30%),linear-gradient(90deg,transparent 78%,#04060f 100%)}
+ .auth-art .aglow{top:32%;width:42%}
+ .auth-art .rays{position:absolute;left:50%;top:-4%;width:92%;height:70%;transform:translateX(-50%);z-index:1;pointer-events:none;mix-blend-mode:screen;filter:blur(14px);background:conic-gradient(from 180deg at 50% 0%,transparent 38%,rgba(34,211,238,.2) 47%,transparent 52%,rgba(124,92,255,.22) 57%,transparent 64%);animation:raysw 9s ease-in-out 1.2s infinite alternate;opacity:0}
+ .auth-art .atxt{top:auto;bottom:clamp(22px,3.4vw,44px);z-index:3;max-width:600px}
+ .auth-art .atxt:before{content:"";position:absolute;left:-60px;right:-120px;top:-90px;bottom:-60px;z-index:-1;background:linear-gradient(180deg,transparent,#04060f 42%)}
+ .auth-art .atxt h1{animation:rise .9s .55s both}.auth-art .asub{animation:rise .9s .8s both}.alist li{animation:rise .7s both}.alist li:nth-child(1){animation-delay:1s}.alist li:nth-child(2){animation-delay:1.12s}.alist li:nth-child(3){animation-delay:1.24s}
+}
+@media(max-height:830px) and (min-width:901px){.acard{padding:22px 28px!important;gap:11px!important}.acard input{padding:11px 14px!important}.acard .btn{padding:11px 16px!important}.ahead p,.asec,.acard .note{display:none}.ahead h2{font-size:1.45rem}.acard .perk{padding:8px 10px}.auth-box{padding-top:16px!important;padding-bottom:16px!important}}
+@media(max-height:760px) and (min-width:901px){.alist{display:none}.auth-art .asub{margin-bottom:6px}.auth-art .aimg{inset:-3% -3% 26% -3%}}
+.alogo{animation:rise .8s .2s both}
+.auth-box:after{content:"";position:absolute;inset:-18%;z-index:0;pointer-events:none;background:radial-gradient(38% 38% at 28% 28%,rgba(124,92,255,.28),transparent 70%),radial-gradient(34% 34% at 76% 72%,rgba(34,211,238,.2),transparent 70%);animation:drift 14s ease-in-out infinite alternate}
+.acard{z-index:1;animation:cardin 1s .3s both cubic-bezier(.2,.7,.2,1);transition:transform .25s ease-out}
+.acard:before{padding:1.5px;background:conic-gradient(from var(--ang),rgba(124,92,255,.95),transparent 22%,transparent 52%,rgba(34,211,238,.95),transparent 78%,rgba(124,92,255,.95));animation:ang 7s linear infinite}
+@media(prefers-reduced-motion:reduce){.auth-art .aimg,.auth-art .rays,.acard,.acard:before,.auth-box:after,.alogo,.auth-art .atxt h1,.auth-art .asub,.alist li{animation:none!important;opacity:1}}
 </style></head><body>
 
 <!-- ============ CONNEXION ============ -->
 <section id="auth">
- <div class="auth-art"><div class="aimg"></div><canvas id="afx"></canvas><div class="aglow"></div>
+ <div class="auth-art"><div class="aimg"></div><canvas id="afx"></canvas><div class="aglow"></div><div class="rays"></div>
   <a class="alogo" href="index.html"><img src="assets/logo-rond.png" alt="" width="46" height="46"><span>ALEX</span></a>
   <div class="atxt"><h1>Ton <span class="grad">univers IA</span><br>t'attend.</h1><p class="asub">Tout ce qu'il te faut pour apprendre, créer et avancer avec l'IA, au même endroit.</p>
   <ul class="alist"><li><b>Tes compétences</b><span>et ta progression, à ton rythme</span></li><li><b>3 guides gratuits</b><span>à réclamer dès l'inscription</span></li><li><b>Le Cercle VIP</b><span>un live par mois avec l'équipe</span></li></ul></div></div>
@@ -337,4 +361,6 @@ var a=document.getElementById("auth"),c=document.getElementById("afx");if(!c)ret
 addEventListener("resize",rs);rs();if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;var img=a.querySelector(".aimg");
 a.addEventListener("mousemove",function(e){if(innerWidth<900)return;var dx=(e.clientX/innerWidth-.5)*-14,dy=(e.clientY/innerHeight-.5)*-10;img.style.marginLeft=dx+"px";img.style.marginTop=dy+"px"});
 (function f(t){if(a.offsetParent!==null){x.clearRect(0,0,W,H);for(var i=0;i<P.length;i++){var q=P[i];q.y-=q.v;if(q.y<-5){q.y=H+5;q.x=Math.random()*W}var al=.35+.4*Math.sin(t/900+q.o);x.fillStyle="rgba("+q.h+","+Math.max(.1,al)+")";x.beginPath();x.arc(q.x,q.y,q.r,0,6.3);x.fill()}}requestAnimationFrame(f)})(0)})();</script>
-<script src="alex-monitor.js"></script></body></html>
+<script>(function(){var b=document.querySelector(".auth-box"),c=document.querySelector(".acard");if(!b||!c||matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+b.addEventListener("mousemove",function(e){if(innerWidth<900)return;var r=b.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform="perspective(900px) rotateY("+(x*7)+"deg) rotateX("+(-y*6)+"deg)"});
+b.addEventListener("mouseleave",function(){c.style.transform=""})})();</script><script src="alex-monitor.js"></script></body></html>
