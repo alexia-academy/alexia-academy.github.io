@@ -442,10 +442,10 @@ a.addEventListener("mousemove",function(e){if(!img||innerWidth<900)return;var dx
 b.addEventListener("mousemove",function(e){if(innerWidth<900)return;var r=b.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform="perspective(900px) rotateY("+(x*7)+"deg) rotateX("+(-y*6)+"deg)"});
 b.addEventListener("mouseleave",function(){c.style.transform=""})})();</script><script>(function(){var a=document.getElementById("auth");if(!a)return;
 var cv=document.createElement("canvas");cv.id="afx3";a.insertBefore(cv,a.firstChild);
-var x=cv.getContext("2d"),W,H,dpr=Math.min(devicePixelRatio||1,1.5),P=[],M={x:-999,y:-999},red=matchMedia("(prefers-reduced-motion:reduce)").matches,NB=24,L=46;
+var x=cv.getContext("2d"),W,H,dpr=Math.min(devicePixelRatio||1,1.5),P=[],M={x:-999,y:-999},red=matchMedia("(prefers-reduced-motion:reduce)").matches,NB=24,L=36;
 function fld(px,py,t){return Math.sin(px*.0017+t*.00011)+Math.sin(py*.0021-t*.00009)+Math.sin((px+py)*.001+t*.00007)*1.3+Math.cos(px*.0006-py*.0012+t*.00005)}
 function mk(){var p={x:Math.random()*W,y:Math.random()*H,h:Math.random(),s:.8+Math.random()*1.5,l:(Math.random()*300)|0,a:new Float32Array(L*2),n:0,i:0};return p}
-function rs(){W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);var n=Math.min(1150,Math.round(W*H/1900));if(W<900)n=Math.min(n,420);while(P.length<n)P.push(mk());if(P.length>n)P.length=n}
+function rs(){W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);var n=Math.min(850,Math.round(W*H/2500));if(W<900)n=Math.min(n,380);while(P.length<n)P.push(mk());if(P.length>n)P.length=n}
 addEventListener("resize",rs);rs();
 addEventListener("mousemove",function(e){M.x=e.clientX;M.y=e.clientY});document.addEventListener("mouseleave",function(){M.x=-999});
 function move(t){for(var i=0;i<P.length;i++){var p=P[i],an=fld(p.x,p.y,t)*1.5,vx=Math.cos(an)*p.s,vy=Math.sin(an)*p.s,dx=p.x-M.x,dy=p.y-M.y,d2=dx*dx+dy*dy;
