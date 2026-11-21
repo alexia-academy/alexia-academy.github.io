@@ -259,6 +259,20 @@ main{max-width:1240px;margin:0 auto;width:100%;padding-top:26px}
  .auth-art .atxt:before{left:-140px!important;right:-220px!important;top:-140px!important;bottom:-140px!important;background:radial-gradient(ellipse 60% 56% at 34% 52%,rgba(4,6,15,.82) 0%,rgba(4,6,15,.5) 52%,transparent 80%)!important}
 }
 @media(prefers-reduced-motion:reduce){.auth-art .atxt h1 .grad{animation:none}#afx3{animation:none;opacity:1}}
+
+/* === Connexion v9 : comment l'IA fonctionne (réseau de neurones expliqué) === */
+.aicap{position:absolute;left:clamp(22px,3.5vw,48px);top:104px;z-index:3;display:flex;gap:14px;align-items:flex-start;max-width:540px;transition:opacity .26s,transform .26s}
+.aicap.out{opacity:0;transform:translateY(8px)}
+.aicap i{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:800 1rem 'Plus Jakarta Sans',sans-serif;font-style:normal;color:#04060f;background:linear-gradient(135deg,#7c5cff,#22d3ee);box-shadow:0 0 22px rgba(34,211,238,.55)}
+.aicap b{display:block;font:800 1.2rem 'Plus Jakarta Sans',sans-serif;letter-spacing:-.01em}
+.aicap span{display:block;color:#aab1d8;font-size:.95rem;margin-top:3px;line-height:1.4}
+@media(max-width:900px){.aicap{display:none}.auth-art{min-height:390px!important}.auth-art .atxt{bottom:22px!important}}
+@media(min-width:901px){
+ .auth-art .atxt{top:auto!important;bottom:clamp(22px,3.4vw,44px)!important;transform:none!important;max-width:620px}
+ .auth-art .atxt h1{font-size:clamp(2.1rem,3.7vw,3.4rem)!important}
+ .auth-art .asub{font-size:1.05rem}
+ .auth-art .atxt:before{left:-120px!important;right:-300px!important;top:-130px!important;bottom:-110px!important;background:radial-gradient(ellipse 58% 54% at 30% 56%,rgba(4,6,15,.85) 0%,rgba(4,6,15,.5) 52%,transparent 80%)!important}
+}
 </style></head><body>
 
 <!-- ============ CONNEXION ============ -->
@@ -442,20 +456,36 @@ a.addEventListener("mousemove",function(e){if(!img||innerWidth<900)return;var dx
 b.addEventListener("mousemove",function(e){if(innerWidth<900)return;var r=b.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform="perspective(900px) rotateY("+(x*7)+"deg) rotateX("+(-y*6)+"deg)"});
 b.addEventListener("mouseleave",function(){c.style.transform=""})})();</script><script>(function(){var a=document.getElementById("auth");if(!a)return;
 var cv=document.createElement("canvas");cv.id="afx3";a.insertBefore(cv,a.firstChild);
-var x=cv.getContext("2d"),W,H,dpr=Math.min(devicePixelRatio||1,1.5),P=[],M={x:-999,y:-999},red=matchMedia("(prefers-reduced-motion:reduce)").matches,NB=24,L=36;
-function fld(px,py,t){return Math.sin(px*.0017+t*.00011)+Math.sin(py*.0021-t*.00009)+Math.sin((px+py)*.001+t*.00007)*1.3+Math.cos(px*.0006-py*.0012+t*.00005)}
-function mk(){var p={x:Math.random()*W,y:Math.random()*H,h:Math.random(),s:.8+Math.random()*1.5,l:(Math.random()*300)|0,a:new Float32Array(L*2),n:0,i:0};return p}
-function rs(){W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);var n=Math.min(850,Math.round(W*H/2500));if(W<900)n=Math.min(n,380);while(P.length<n)P.push(mk());if(P.length>n)P.length=n}
-addEventListener("resize",rs);rs();
-addEventListener("mousemove",function(e){M.x=e.clientX;M.y=e.clientY});document.addEventListener("mouseleave",function(){M.x=-999});
-function move(t){for(var i=0;i<P.length;i++){var p=P[i],an=fld(p.x,p.y,t)*1.5,vx=Math.cos(an)*p.s,vy=Math.sin(an)*p.s,dx=p.x-M.x,dy=p.y-M.y,d2=dx*dx+dy*dy;
-if(d2<48400){var d=Math.sqrt(d2)+1,f=(1-d/220)*2.6;vx+=-dy/d*f+dx/d*f*.5;vy+=dx/d*f+dy/d*f*.5}
-p.x+=vx;p.y+=vy;var j=(p.i%L)*2;p.a[j]=p.x;p.a[j+1]=p.y;p.i++;if(p.n<L)p.n++;
-if(--p.l<0||p.x<-20||p.x>W+20||p.y<-20||p.y>H+20){var q=mk();q.l=240+((Math.random()*300)|0);P[i]=q}}}
-var AL=[.2,.38,.62,.95],TI=AL.length;
-function draw(t){x.clearRect(0,0,W,H);x.globalCompositeOperation="lighter";x.lineWidth=1.7;x.lineCap="round";
-var seg=new Array(NB*TI);for(var z=0;z<seg.length;z++)seg[z]=[];
-for(var i=0;i<P.length;i++){var p=P[i],n=p.n;if(n<2)continue;var bk=((p.h*NB)|0),start=p.i-n;for(var u=0;u<n-1;u++){var j0=((start+u)%L)*2,j1=((start+u+1)%L)*2,tier=((u/(n-1))*TI)|0;seg[bk*TI+tier].push(p.a[j0],p.a[j0+1],p.a[j1],p.a[j1+1])}}
-for(var b=0;b<NB;b++){var hue=196+(b/NB)*128+Math.sin(t/5000)*14;for(var tr=0;tr<TI;tr++){var q=seg[b*TI+tr];if(!q.length)continue;x.strokeStyle="hsla("+hue+",100%,66%,"+AL[tr]+")";x.beginPath();for(var j=0;j<q.length;j+=4){x.moveTo(q[j],q[j+1]);x.lineTo(q[j+2],q[j+3])}x.stroke()}}}
-if(red){for(var k=0;k<L+30;k++)move(k*30);draw(0);return}
-(function f(t){requestAnimationFrame(f);if(document.hidden||a.offsetParent===null)return;move(t);draw(t)})(0)})();</script><script src="alex-monitor.js"></script></body></html>
+var x=cv.getContext("2d"),W,H,dpr=Math.min(devicePixelRatio||1,2),red=matchMedia("(prefers-reduced-motion:reduce)").matches,T=10000,M={x:.5,y:.5},small=false;
+var TOK=["Crée","une","vidéo","pub"],OUT=["Script","Voix","Vidéo"],STG=["Ta demande","Compréhension","Réflexion","Création","Résultat"],LAY=[4,6,7,6,3],ST=[];
+var cap=document.createElement("div");cap.className="aicap";cap.innerHTML="<i></i><div><b></b><span></span></div>";a.querySelector(".auth-art").appendChild(cap);
+var STEPS=[[0,"Tu écris ta demande","En langage normal, comme tu parlerais à un humain."],[1300,"L'IA la découpe en morceaux","Chaque mot devient un nombre qu'elle sait calculer."],[3000,"Des milliers de neurones s'activent","Couche après couche, elle relie tout ce qu'elle a appris."],[5400,"Elle choisit la meilleure réponse","Mot après mot, en prédisant la suite la plus probable."],[7000,"Le résultat est prêt","Script, voix, vidéo : il ne te reste plus qu'à publier."]];
+var cs=-1;function setCap(i,now){if(i===cs)return;cs=i;var f=function(){cap.querySelector("i").textContent=i+1;cap.querySelector("b").textContent=STEPS[i][1];cap.querySelector("span").textContent=STEPS[i][2];cap.classList.remove("out")};if(now){f()}else{cap.classList.add("out");setTimeout(f,260)}}
+function rnd(l,i,j){var v=Math.sin(l*12.9898+i*78.233+j*37.719)*43758.5453;return v-Math.floor(v)}
+var N=[],E=[],box={};
+function layout(){W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);small=W<900;
+var tx=a.querySelector(".atxt"),cd=a.querySelector(".acard"),tr=tx?tx.getBoundingClientRect():{top:H*.62},cr=cd?cd.getBoundingClientRect():{left:W*.62};
+var top=small?92:160,bottom=small?Math.max(top+90,tr.top-30):tr.top-64,left=small?64:92,right=small?W-64:Math.max(left+320,Math.min(cr.left-90,W*.6));
+if(bottom-top<150)bottom=top+150;box={l:left,r:right,t:top,b:bottom};
+var layers=small?[3,4,4,3]:LAY;N=[];E=[];
+layers.forEach(function(n,li){var col=[];for(var k=0;k<n;k++)col.push({x:left+(right-left)*(li/(layers.length-1)),y:top+(bottom-top)*((k+.5)/n),l:li,k:k,arr:1e9});N.push(col)});
+var last=N.length-1;
+N[0].forEach(function(nd,k){nd.arr=300+k*330});
+for(var l=1;l<N.length;l++){for(var j=0;j<N[l].length;j++){for(var i=0;i<N[l-1].length;i++){var r=rnd(l,i,j),e={a:N[l-1][i],b:N[l][j],s:1500+(l-1)*1000+r*350,w:.55+r*.45};E.push(e);N[l][j].arr=Math.min(N[l][j].arr,e.s+600)}}}}
+layout();addEventListener("resize",layout);var lc=0,li=setInterval(function(){layout();if(++lc>5)clearInterval(li)},1200);
+addEventListener("mousemove",function(e){M.x=e.clientX/W;M.y=e.clientY/H});
+var S=[];for(var q=0;q<110;q++)S.push({x:Math.random(),y:Math.random(),r:.4+Math.random()*1.2,t:Math.random()*6});
+function pill(cx,cy,txt,act,col){x.font="700 "+(small?11:13)+"px 'Plus Jakarta Sans',Inter,sans-serif";var w=x.measureText(txt).width+22,h=small?22:27;x.beginPath();x.roundRect?x.roundRect(cx-w/2,cy-h/2,w,h,h/2):x.rect(cx-w/2,cy-h/2,w,h);x.fillStyle="rgba(8,11,32,.86)";x.fill();x.strokeStyle="rgba("+col+","+(.28+.72*act)+")";x.lineWidth=1.2;if(act>0){x.shadowColor="rgb("+col+")";x.shadowBlur=14*act}x.stroke();x.shadowBlur=0;x.fillStyle="rgba(255,255,255,"+(.5+.5*act)+")";x.textAlign="center";x.textBaseline="middle";x.fillText(txt,cx,cy+1)}
+function draw(t){var tc=window.__TC!=null?window.__TC:(red?7600:(t%T)),fade=tc>9300?Math.max(0,(T-tc)/700):1;x.clearRect(0,0,W,H);
+for(var i=0;i<S.length;i++){var s=S[i],al=.2+.4*(.6+.4*Math.sin(t/800+s.t));x.fillStyle="rgba(180,220,255,"+al+")";x.beginPath();x.arc(s.x*W,s.y*H,s.r,0,6.3);x.fill()}
+x.save();x.translate((M.x-.5)*-14,(M.y-.5)*-10);
+var tot=0,cnt=0;N.forEach(function(c){c.forEach(function(n){var ac=n.arr<=tc?(n.l===0||n.l===N.length-1?1:Math.max(.32,1-(tc-n.arr)/1100)):0;n._a=ac*fade;tot+=n._a;cnt++})});
+var cx=(box.l+box.r)/2,cy=(box.t+box.b)/2,gr=x.createRadialGradient(cx,cy,10,cx,cy,Math.max(box.r-box.l,box.b-box.t)*.6);gr.addColorStop(0,"rgba(124,92,255,"+(.05+.16*tot/Math.max(cnt,1))+")");gr.addColorStop(1,"rgba(124,92,255,0)");x.fillStyle=gr;x.fillRect(-30,-30,W+60,H+60);
+E.forEach(function(e){var p=(tc-e.s)/600,g=p<0?0:Math.max(.28,1-Math.max(0,p-1)/1.6);g*=fade;x.strokeStyle="rgba("+(e.b.l%2?"34,211,238":"150,120,255")+","+(.07+.42*g*e.w)+")";x.lineWidth=1;x.beginPath();x.moveTo(e.a.x,e.a.y);x.lineTo(e.b.x,e.b.y);x.stroke();
+if(p>0&&p<1&&fade>0){var px=e.a.x+(e.b.x-e.a.x)*p,py=e.a.y+(e.b.y-e.a.y)*p;x.fillStyle="rgba(255,255,255,.95)";x.shadowColor="#22d3ee";x.shadowBlur=11;x.beginPath();x.arc(px,py,2.3,0,6.3);x.fill();x.shadowBlur=0}});
+N.forEach(function(c,li){c.forEach(function(n){var ac=n._a;if(li===0){pill(n.x,n.y,TOK[n.k%TOK.length],ac,"34,211,238")}else if(li===N.length-1){pill(n.x,n.y,OUT[n.k%OUT.length],ac,"255,79,216")}else{var r=4.5+ac*3.2;x.beginPath();x.arc(n.x,n.y,r,0,6.3);x.fillStyle=ac>0?"rgba("+(li%2?"170,240,255":"200,180,255")+","+(.55+.45*ac)+")":"rgba(120,130,190,.55)";if(ac>0){x.shadowColor=li%2?"#22d3ee":"#9b7bff";x.shadowBlur=16*ac}x.fill();x.shadowBlur=0}})});
+if(!small){x.font="700 11px 'Plus Jakarta Sans',Inter,sans-serif";x.textAlign="center";x.textBaseline="alphabetic";N.forEach(function(c,li){var st=li===0?0:1500+(li-1)*1000,on=tc>=st&&tc<st+(li===N.length-1?T:1000);x.fillStyle=on?"rgba(34,211,238,.95)":"rgba(150,160,210,.55)";x.fillText(STG[li].toUpperCase(),c[0].x,box.b+34)})}
+x.restore();
+var si=0;for(var q=0;q<STEPS.length;q++)if(tc>=STEPS[q][0])si=q;setCap(si,cs<0)}
+if(red){window.__TC=7600;draw(0);addEventListener("resize",function(){draw(0)});return}
+(function f(t){requestAnimationFrame(f);if(document.hidden||a.offsetParent===null)return;draw(t)})(0)})();</script><script src="alex-monitor.js"></script></body></html>
