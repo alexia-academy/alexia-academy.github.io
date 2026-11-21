@@ -213,10 +213,10 @@ main{max-width:1240px;margin:0 auto;width:100%;padding-top:26px}
 @keyframes orb{to{--a:360deg}}
 @keyframes scenein{from{opacity:0;transform:scale(.7);filter:blur(14px)}to{opacity:1;transform:none;filter:none}}
 .auth-art .aimg{display:none}
-@media(max-height:830px) and (min-width:901px){.auth-art .scene{--R:min(12.5vw,17.5vh)!important;top:33%!important}}
+@media(max-height:760px) and (min-width:901px){.auth-art .scene{--R:min(15vw,calc(((100vh - 250px)/2 - 26px)/1.42))!important;top:calc((100vh - 250px)/2)!important}}
 .auth-art .atxt:before{left:-120px!important;right:-260px!important;top:-150px!important;bottom:-120px!important;background:radial-gradient(ellipse 62% 58% at 38% 58%,rgba(4,6,15,.9) 0%,rgba(4,6,15,.55) 48%,transparent 78%)!important}
 .auth-box:after{display:none!important}.auth-box{overflow:visible!important}#auth{overflow:hidden}
-.auth-art .scene{--R:min(15vw,22vh);position:absolute;left:50%;top:34%;width:0;height:0;z-index:2;animation:scenein 1.8s cubic-bezier(.2,.7,.2,1) both;max-width:none}
+.auth-art .scene{--R:min(15vw,calc(((100vh - 340px)/2 - 26px)/1.42));position:absolute;left:50%;top:calc((100vh - 340px)/2);width:0;height:0;z-index:2;animation:scenein 1.8s cubic-bezier(.2,.7,.2,1) both;max-width:none}
 .scene .rg{position:absolute;border-radius:50%;left:calc(var(--rr)*-1);top:calc(var(--rr)*-1);width:calc(var(--rr)*2);height:calc(var(--rr)*2);border:1px solid rgba(34,211,238,.32);pointer-events:none}
 .scene .r1{--rr:calc(var(--R)*1.0);animation:spin 40s linear infinite;border-top-color:rgba(124,92,255,.9);border-right-color:transparent;box-shadow:0 0 40px rgba(124,92,255,.18)}
 .scene .r2{--rr:calc(var(--R)*1.42);animation:spin 70s linear infinite reverse;border-style:dashed;border-color:rgba(124,92,255,.35);border-bottom-color:rgba(34,211,238,.7)}
@@ -226,7 +226,7 @@ main{max-width:1240px;margin:0 auto;width:100%;padding-top:26px}
 .scene .chip{position:absolute;left:0;top:0;white-space:nowrap;font:700 clamp(.72rem,.9vw,.9rem) 'Plus Jakarta Sans',Inter,sans-serif;color:#fff;padding:7px 14px;border-radius:99px;background:rgba(8,11,32,.72);border:1px solid color-mix(in srgb,var(--c) 70%,transparent);box-shadow:0 0 18px color-mix(in srgb,var(--c) 35%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
  --r:calc(var(--R)*var(--k));transform:rotate(var(--a)) translateX(var(--r)) rotate(calc(var(--a)*-1)) translate(-50%,-50%);animation:orb var(--p) linear infinite;animation-delay:var(--o)}
 .scene .chip:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--c);margin-right:8px;box-shadow:0 0 8px var(--c);vertical-align:1px}
-.auth-art .aglow{top:34%!important;width:44%!important}
+.auth-art .aglow{top:calc((100vh - 340px)/2)!important;width:44%!important}
 @media(max-width:900px){.auth-art .scene{--R:min(21vw,92px);top:42%}.scene .chip,.scene .r2{display:none}}
 @media(prefers-reduced-motion:reduce){.scene .rg,.scene .chip,.scene .core,.auth-art .scene{animation:none!important}.scene .chip:nth-child(5){--a:0deg}.scene .chip:nth-child(6){--a:90deg}.scene .chip:nth-child(7){--a:180deg}.scene .chip:nth-child(8){--a:270deg}.scene .chip:nth-child(9){--a:45deg}.scene .chip:nth-child(10){--a:135deg}.scene .chip:nth-child(11){--a:225deg}.scene .chip:nth-child(12){--a:315deg}}
 </style></head><body>
