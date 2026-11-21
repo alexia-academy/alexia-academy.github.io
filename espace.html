@@ -133,13 +133,40 @@ main{max-width:1240px;margin:0 auto;width:100%;padding-top:26px}
 @media(max-width:700px){.cont{flex-wrap:wrap}.cont img{width:100%}}
 .vx-field{display:grid;gap:8px}.vx-open{display:flex;align-items:center;gap:12px;width:100%;padding:8px 16px 8px 8px;border-radius:16px;background:rgba(5,8,22,.85);border:1px solid rgba(245,196,81,.5);color:#fff;font:inherit;cursor:pointer;text-align:left;transition:border-color .2s,box-shadow .2s}.vx-open:hover{border-color:#F5C451;box-shadow:0 0 20px rgba(245,196,81,.3)}.vx-open img{width:96px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;flex:none}.vx-open span{flex:1;display:grid;min-width:0}.vx-open small{color:#FFE29A}.vx-open em{font-style:normal;color:#FFE29A;font-size:.85rem;white-space:nowrap}
 .vm{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:20px;background:rgba(3,4,14,.75);backdrop-filter:blur(10px)}.vm[hidden]{display:none}.vmb{position:relative;width:min(1000px,96vw);max-height:88vh;overflow:auto;padding:26px;border-radius:24px;background:#0b0e26;border:1px solid rgba(245,196,81,.35);box-shadow:0 30px 80px rgba(0,0,0,.6)}.vmg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}.vt{display:flex;flex-direction:column;gap:7px;padding:7px;border-radius:14px;background:rgba(7,10,28,.7);border:1px solid var(--line);color:#fff;font:inherit;text-align:left;cursor:pointer;transition:border-color .2s,transform .2s}.vt:hover{border-color:rgba(245,196,81,.6);transform:translateY(-2px)}.vt img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:9px}.vt.on{border-color:#F5C451;box-shadow:0 0 0 2px #F5C451,0 0 22px rgba(245,196,81,.4)}.vt div{display:flex;justify-content:space-between;gap:8px;padding:0 4px 4px;font-size:.9rem}.vt span{color:#FFE29A;white-space:nowrap;font-weight:700}.vmx{position:absolute;top:12px;right:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#fff;font-size:1.4rem;cursor:pointer}
+
+/* === Page de connexion refaite 21/11 === */
+.auth-art .aimg,.auth-art .aglow{max-width:none}.auth-art .aimg{position:absolute}
+#auth{grid-template-columns:1.2fr 1fr;background:#04060f}
+.auth-art{background:#04060f!important;overflow:hidden;padding:0!important;align-items:stretch!important;display:block!important;min-height:100vh;position:relative}
+.auth-art:after{display:none!important}
+.auth-art .aimg{position:absolute;inset:-4%;background:url(assets/espace/espace-connexion.jpg) center top/cover no-repeat;animation:kb 26s ease-in-out infinite alternate;will-change:transform}
+@keyframes kb{from{transform:scale(1) translate(0,0)}to{transform:scale(1.07) translate(-1.5%,1.2%)}}
+.auth-art:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(4,6,15,.15) 0%,rgba(4,6,15,0) 35%,rgba(4,6,15,.82) 72%,#04060f 100%),linear-gradient(90deg,transparent 70%,#04060f 100%)}
+.auth-art #afx{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.auth-art .aglow{position:absolute;left:50%;top:38%;width:46%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,.28),rgba(124,92,255,.14) 45%,transparent 70%);filter:blur(30px);z-index:1;animation:pulse 6s ease-in-out infinite;pointer-events:none}
+.alogo{position:absolute;left:clamp(22px,3.5vw,48px);top:clamp(20px,3vw,40px);z-index:3;display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.16em;font-size:1.15rem}.alogo img{border-radius:50%;box-shadow:0 0 24px rgba(124,92,255,.6)}
+.auth-art .atxt{position:absolute;left:clamp(22px,3.5vw,48px);right:clamp(22px,3.5vw,48px);bottom:clamp(24px,4vw,52px);z-index:3;max-width:560px}
+.auth-art .atxt h1{font:800 clamp(2rem,4.2vw,3.4rem)/1.05 'Plus Jakarta Sans',Inter,sans-serif;letter-spacing:-.03em;margin:0}
+.auth-art .asub{color:#c4cbef;margin:14px 0 22px;font-size:1.05rem;max-width:470px;line-height:1.5}
+.alist{list-style:none;display:grid;gap:11px;padding:0}.alist li{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:baseline;padding-left:16px;position:relative}.alist li:before{content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 10px var(--accent2)}.alist b{font-size:.98rem}.alist span{color:#9aa4c8;font-size:.9rem}
+.auth-box{padding:clamp(20px,4vw,60px)!important;justify-content:center;align-items:center;position:relative;background:radial-gradient(600px 400px at 70% 10%,rgba(124,92,255,.16),transparent 60%),radial-gradient(500px 400px at 20% 100%,rgba(34,211,238,.1),transparent 60%)}
+.acard{width:100%;max-width:460px;padding:clamp(24px,3vw,38px);border-radius:28px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 60px rgba(124,92,255,.12);display:grid;gap:16px;position:relative}
+.acard:before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(124,92,255,.7),transparent 35%,transparent 65%,rgba(34,211,238,.6));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.ahead h2{font:800 1.7rem 'Plus Jakarta Sans',Inter,sans-serif;letter-spacing:-.02em;margin:0 0 4px;display:block}.ahead p{color:var(--muted);font-size:.95rem;line-height:1.45}
+.acard .tabs{margin-top:0!important}.acard input{padding:14px 16px!important;border-radius:14px!important;background:rgba(5,8,22,.7)!important}.acard input:focus{outline:2px solid var(--accent2)!important;box-shadow:0 0 20px rgba(34,211,238,.25)}
+.acard label{font-size:.82rem}.acard .btn{padding:14px 18px;border-radius:14px;font-size:1rem}
+.asec{text-align:center;color:#7f87b3;font-size:.76rem}
+@media(max-width:900px){#auth{grid-template-columns:1fr!important}.auth-art{min-height:300px!important}.auth-art .atxt{bottom:20px}.auth-art .asub,.alist{display:none}.auth-art .atxt h1{font-size:1.9rem}.auth-art .aglow{top:30%}.auth-box{padding:22px 14px 40px!important}}
+@media(prefers-reduced-motion:reduce){.auth-art .aimg,.auth-art .aglow{animation:none}}
 </style></head><body>
 
 <!-- ============ CONNEXION ============ -->
 <section id="auth">
- <div class="auth-art"><div><h1>Ton <span class="grad">univers IA</span> t'attend.</h1><p>Retrouve tes compétences, tes guides et le Cercle VIP au même endroit.</p></div></div>
- <div class="auth-box">
-  <a class="logo" href="index.html"><img src="assets/logo-rond.png" alt="">ALEX</a>
+ <div class="auth-art"><div class="aimg"></div><canvas id="afx"></canvas><div class="aglow"></div>
+  <a class="alogo" href="index.html"><img src="assets/logo-rond.png" alt="" width="46" height="46"><span>ALEX</span></a>
+  <div class="atxt"><h1>Ton <span class="grad">univers IA</span><br>t'attend.</h1><p class="asub">Tout ce qu'il te faut pour apprendre, créer et avancer avec l'IA, au même endroit.</p>
+  <ul class="alist"><li><b>Tes compétences</b><span>et ta progression, à ton rythme</span></li><li><b>3 guides gratuits</b><span>à réclamer dès l'inscription</span></li><li><b>Le Cercle VIP</b><span>un live par mois avec l'équipe</span></li></ul></div></div>
+ <div class="auth-box"><div class="acard"><div class="ahead"><h2 id="ah">Content de te revoir</h2><p id="as">Connecte-toi pour retrouver tes compétences et ta progression.</p></div>
   <div class="tabs"><button type="button" class="on" data-tab="in">Connexion</button><button type="button" data-tab="up">Créer mon compte</button></div>
   <form id="fauth" style="display:grid;gap:12px">
    <label id="lprenom" style="display:none">Prénom<input name="prenom" autocomplete="given-name"></label>
@@ -152,6 +179,7 @@ main{max-width:1240px;margin:0 auto;width:100%;padding-top:26px}
   <button type="button" class="btn gbtn" id="bgoogle"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Continuer avec Google</button>
   <div class="perk"><img src="assets/icones/r-eclair.png" alt="" width="28" height="28">En créant ton compte, tu débloques tout de suite les 3 guides gratuits.</div>
   <p class="note">Tes compétences achetées apparaissent automatiquement dans ton espace.</p>
+  <p class="asec">Connexion sécurisée · tes données restent privées</p></div>
  </div>
 </section>
 
@@ -303,4 +331,10 @@ document.addEventListener("mouseout",function(e){var c=e.target.closest&&e.targe
 function ring(p,col){var R=15,C=2*Math.PI*R;return '<svg class="rg" viewBox="0 0 40 40" width="46" height="46"><circle cx="20" cy="20" r="'+R+'" fill="rgba(5,8,22,.7)" stroke="rgba(255,255,255,.15)" stroke-width="3.5"/><circle cx="20" cy="20" r="'+R+'" fill="none" stroke="'+col+'" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="'+C+'" stroke-dashoffset="'+(C*(1-p/100))+'" transform="rotate(-90 20 20)" style="filter:drop-shadow(0 0 4px '+col+')"/><text x="20" y="23.5" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff">'+p+'%</text></svg>'}
 function enhance(){if(RING)document.querySelectorAll(".fc").forEach(function(f){if(f.dataset.rg)return;var b=f.querySelector(".bar i"),ban=f.querySelector(".ban");if(!b||!ban)return;f.dataset.rg=1;var p=parseInt(b.style.width)||0,col=getComputedStyle(f).getPropertyValue("--c").trim()||"#22d3ee";var w=document.createElement("div");w.style.cssText="position:absolute;top:10px;right:10px";w.innerHTML=ring(p,col);f.style.position="relative";f.appendChild(w)});
  if(TYPE){var t=document.getElementById("vtitle");if(t&&!t.dataset.ty&&/Bonjour/.test(t.textContent)){t.dataset.ty=1;var full=t.innerHTML,txt=t.textContent,i=0;t.innerHTML="";(function s(){i++;t.textContent=txt.slice(0,i);if(i<txt.length)setTimeout(s,38);else t.innerHTML=full})()}}}
-new MutationObserver(function(){enhance()}).observe(document.body,{childList:true,subtree:true});})();</script><script src="alex-monitor.js"></script></body></html>
+new MutationObserver(function(){enhance()}).observe(document.body,{childList:true,subtree:true});})();</script><script>(function(){var t=document.querySelectorAll(".tabs button"),h=document.getElementById("ah"),p=document.getElementById("as");
+t.forEach(function(b){b.addEventListener("click",function(){if(b.dataset.tab==="up"){h.textContent="Crée ton compte";p.textContent="Gratuit en 30 secondes : tu débloques 3 guides et tu retrouves tes achats."}else{h.textContent="Content de te revoir";p.textContent="Connecte-toi pour retrouver tes compétences et ta progression."}})});
+var a=document.getElementById("auth"),c=document.getElementById("afx");if(!c)return;var x=c.getContext("2d"),P=[],W,H;function rs(){var r=c.getBoundingClientRect();W=c.width=r.width;H=c.height=r.height;P=[];for(var i=0;i<46;i++)P.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+.4,v:Math.random()*.25+.05,h:Math.random()<.5?"124,92,255":"34,211,238",o:Math.random()*6})}
+addEventListener("resize",rs);rs();if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;var img=a.querySelector(".aimg");
+a.addEventListener("mousemove",function(e){if(innerWidth<900)return;var dx=(e.clientX/innerWidth-.5)*-14,dy=(e.clientY/innerHeight-.5)*-10;img.style.marginLeft=dx+"px";img.style.marginTop=dy+"px"});
+(function f(t){if(a.offsetParent!==null){x.clearRect(0,0,W,H);for(var i=0;i<P.length;i++){var q=P[i];q.y-=q.v;if(q.y<-5){q.y=H+5;q.x=Math.random()*W}var al=.35+.4*Math.sin(t/900+q.o);x.fillStyle="rgba("+q.h+","+Math.max(.1,al)+")";x.beginPath();x.arc(q.x,q.y,q.r,0,6.3);x.fill()}}requestAnimationFrame(f)})(0)})();</script>
+<script src="alex-monitor.js"></script></body></html>
