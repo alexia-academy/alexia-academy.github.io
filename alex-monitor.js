@@ -60,6 +60,7 @@
   window.alexAuthCheck=function(){var s=tok();if(!s)return;var u=s.user,k="alex_ins_"+u.id;
     if(!localStorage.getItem(k)){localStorage.setItem(k,"1");if(u.created_at&&Date.now()-new Date(u.created_at).getTime()<3600*1000){send("inscription",null,null,true);px("CompleteRegistration")}}
     if(!ss("alex_cx")){ss("alex_cx","1");send("connexion",null,null,true)}};
+  setTimeout(function(){try{if(window.alexFresh)alexFresh().then(function(){try{window.alexAuthCheck()}catch(e){}});else window.alexAuthCheck()}catch(e){}},1500);
 
   /* ---------- Pixels (Meta, TikTok, Google Analytics, Microsoft Clarity) : chargés seulement après « Accepter » ---------- */
   var CFG={},PXON=false,RX=/^[A-Za-z0-9_-]{4,40}$/;
@@ -99,11 +100,22 @@
 /* Paiement et offres liés au COMPTE : il faut être connecté pour payer ; offres de bienvenue (-10 %) et personnelle (-25 %, 30 min) réelles. */
 (function(){
   var SB="https://phqfpqzrpdfvpewkvqdh.supabase.co",KEY="sb_publishable_W-z46a0Mhkojf2X8YkTJ8A_QJNKWmHA",FN=SB+"/functions/v1/offre-flash",P=location.pathname;
+  /* Jeton de connexion : renouvelé automatiquement s'il est expiré (sinon offres, suivi et paiement du Pack échouaient) */
+  window.alexFresh=function(){var SBu="https://phqfpqzrpdfvpewkvqdh.supabase.co",KEYu="sb_publishable_W-z46a0Mhkojf2X8YkTJ8A_QJNKWmHA";
+    return new Promise(function(res){try{var k=Object.keys(localStorage).filter(function(x){return /^sb-.*-auth-token$/.test(x)})[0];if(!k)return res(null);
+      var j=JSON.parse(localStorage.getItem(k));if(!j||!j.access_token||!j.user)return res(null);
+      if(j.expires_at&&j.expires_at>Date.now()/1000+60)return res(j);
+      if(!j.refresh_token)return res(null);
+      if(!window.__alexRef){window.__alexRef=fetch(SBu+"/auth/v1/token?grant_type=refresh_token",{method:"POST",headers:{apikey:KEYu,"Content-Type":"application/json"},body:JSON.stringify({refresh_token:j.refresh_token})}).then(function(r){return r.ok?r.json():null}).then(function(n){
+        if(n&&n.access_token){var ns={access_token:n.access_token,refresh_token:n.refresh_token,expires_in:n.expires_in,expires_at:n.expires_at||Math.floor(Date.now()/1000)+n.expires_in,token_type:n.token_type||"bearer",user:n.user||j.user};localStorage.setItem(k,JSON.stringify(ns));return ns}return null}).catch(function(){return null});
+        setTimeout(function(){window.__alexRef=null},4000)}
+      window.__alexRef.then(res)}catch(e){res(null)}})};
   function tok(){try{var k=Object.keys(localStorage).filter(function(x){return /^sb-.*-auth-token$/.test(x)})[0];var j=k&&JSON.parse(localStorage.getItem(k));return j&&j.access_token&&j.user?j:null}catch(e){return null}}
-  function offre(){try{var o=JSON.parse(localStorage.getItem("alex_offre")||"null");return o&&new Date(o.expires_at)>new Date()?o:null}catch(e){return null}}
+  function offre(){try{var o=JSON.parse(localStorage.getItem("alex_offre")||"null");if(o&&!(o.code&&o.pourcentage&&o.expires_at)){localStorage.removeItem("alex_offre");return null}return o&&new Date(o.expires_at)>new Date()?o:null}catch(e){return null}}
   function finalUrl(link){var s=tok();if(!s)return link;var u=link+(link.indexOf("?")>-1?"&":"?")+"prefilled_email="+encodeURIComponent(s.user.email)+"&client_reference_id="+encodeURIComponent(s.user.id),o=offre();if(o)u+="&prefilled_promo_code="+encodeURIComponent(o.code);return u}
-  function get(type,decl){var s=tok();if(!s)return Promise.resolve(null);
-    return fetch(FN,{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+s.access_token,apikey:KEY},body:JSON.stringify({type:type,declencheur:decl})}).then(function(r){return r.json()}).then(function(j){if(j&&j.code){localStorage.setItem("alex_offre",JSON.stringify(j));bandeau();return j}return null}).catch(function(){return null})}
+  function get(type,decl){if(!tok())return Promise.resolve(null);
+    return alexFresh().then(function(s){if(!s)return null;return fetch(FN,{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+s.access_token,apikey:KEY},body:JSON.stringify({type:type,declencheur:decl})}).then(function(r){return r.json()}).then(function(j){if(j&&j.code&&j.pourcentage&&j.expires_at){localStorage.setItem("alex_offre",JSON.stringify(j));bandeau();return j}return null})}).catch(function(){return null})}
+  function dureeTxt(o){var h=Math.max(1,Math.round((new Date(o.expires_at)-Date.now())/3600000));return h>=24?Math.round(h/24)+" jours":h+" heures"}
   var tm;
   function bandeau(){
     var old=document.getElementById("alexOffre");if(old)old.remove();clearInterval(tm);var o=offre();if(!o||localStorage.getItem("alex_offre_ferme")===o.code)return;
@@ -113,7 +125,7 @@
     var xb=document.createElement("button");xb.type="button";xb.setAttribute("aria-label","Fermer le bandeau");xb.textContent="×";xb.style.cssText="background:rgba(0,0,0,.25);border:0;color:#fff;border-radius:50%;width:24px;height:24px;margin-left:12px;cursor:pointer;font:700 15px/22px system-ui";xb.onclick=function(){localStorage.setItem("alex_offre_ferme",o.code);b.remove();clearInterval(tm)};var tx=document.createElement("span");i.appendChild(tx);i.appendChild(xb);b.appendChild(i);document.body.appendChild(b);
     function maj(){var r=Math.max(0,Math.floor((new Date(o.expires_at)-Date.now())/1000));if(r<=0){localStorage.removeItem("alex_offre");bandeau();return}
       var h=Math.floor(r/3600),m=Math.floor(r%3600/60),s=r%60,tt=(h?h+" h ":"")+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
-      tx.textContent=(o.type==="bienvenue"?"Bienvenue : -":"Content de te revoir ! Cadeau de retour : -")+o.pourcentage+" % appliqué à ton paiement · il te reste "+tt}
+      tx.textContent=(o.type==="bienvenue"?"Bienvenue : -":(o.type==="fidele"?"Merci de ta fidélité : -":"Content de te revoir ! Cadeau de retour : -"))+o.pourcentage+" % appliqué à ton paiement · il te reste "+tt}
     maj();tm=setInterval(maj,1000)}
   function popup(titre,texte,bouton,action){
     if(document.getElementById("alexPop"))return;
@@ -132,7 +144,7 @@
   document.addEventListener("click",function(e){
     var a=e.target.closest&&e.target.closest('a[href^="https://buy.stripe.com/"]');if(!a||ESPACE)return;
     e.preventDefault();var link=a.getAttribute("href");localStorage.setItem("alex_pay_click",String(Date.now()));var pid=window.alexPayId?alexPayId(link):"";if(window.alexTrack)alexTrack("paiement",pid,null,true);if(window.alexPixel)alexPixel("InitiateCheckout",{id:pid});
-    if(link==="https://buy.stripe.com/fZubIU6X0grHdiZ2mR6EU0h"){var sp=tok();if(!sp){localStorage.setItem("alex_next_vip","pack");location.href="/espace?inscription=1";return}fetch(SB+"/functions/v1/paiement-vip",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+sp.access_token,apikey:KEY},body:JSON.stringify({action:"checkout",module:"pack"})}).then(function(r){return r.json()}).then(function(j){location.href=(j&&j.url)?j.url:finalUrl(link)}).catch(function(){location.href=finalUrl(link)});return}
+    if(link==="https://buy.stripe.com/fZubIU6X0grHdiZ2mR6EU0h"){var sp=tok();if(!sp){localStorage.setItem("alex_next_vip","pack");location.href="/espace?inscription=1";return}alexFresh().then(function(s2){var oo=offre();return fetch(SB+"/functions/v1/paiement-vip",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+(s2||sp).access_token,apikey:KEY},body:JSON.stringify({action:"checkout",module:"pack",promo:(oo&&oo.promo_id)||undefined})})}).then(function(r){return r.json()}).then(function(j){location.href=(j&&j.url)?j.url:finalUrl(link)}).catch(function(){location.href=finalUrl(link)});return}
     if(!tok()){localStorage.setItem("alex_next",link);location.href="/espace?inscription=1";return}
     var fu=finalUrl(link);if(window.alexPixelsActifs&&alexPixelsActifs())setTimeout(function(){location.href=fu},350);else location.href=fu},true);
   if(ESPACE||/^\/(cgv|mentions-legales|confidentialite)/.test(P)||location.protocol==="file:")return;
@@ -153,9 +165,9 @@
   var t0=Date.now();
   /* 3) Réactions selon le comportement */
   function proposerConnecte(decl){
-    if(offre()||recent("alex_pop_flash",3600*1000))return;
+    if(offre()||recent("alex_pop_flash",7*86400000))return;
     get("flash",decl).then(function(o){if(!o)return;localStorage.setItem("alex_pop_flash",String(Date.now()));
-      popup("-"+o.pourcentage+" % rien que pour toi","Offre personnelle valable 4 heures, appliquée automatiquement à ton paiement. Passé ce délai, le prix normal s’applique.","Profiter de -"+o.pourcentage+" %",function(){var l=document.querySelector('a[href^="https://buy.stripe.com/"]');if(l)l.scrollIntoView({behavior:"smooth",block:"center"})})})}
+      popup("-"+o.pourcentage+" % rien que pour toi","Offre personnelle valable "+dureeTxt(o)+", appliquée automatiquement à ton paiement. Passé ce délai, le prix normal s’applique.","Profiter de -"+o.pourcentage+" %",function(){var l=document.querySelector('a[href^="https://buy.stripe.com/"]');if(l)l.scrollIntoView({behavior:"smooth",block:"center"})})})}
   function proposerInvite(){
     if(recent("alex_pop_invite",7*86400000))return;localStorage.setItem("alex_pop_invite",String(Date.now()));
     popup("Avant de partir : -10 %","Crée ton compte gratuit et reçois -10 % sur ta première commande (valable 24 h).","Créer mon compte",function(){location.href="/espace?inscription=1"})}
@@ -166,8 +178,8 @@
     if(tok()){if(aCliquePaiement||vues>=2)proposerConnecte("sortie")}else{proposerInvite()}});
   /* retour : si l'offre de bienvenue a expiré sans achat, le serveur accorde -25 % pendant 4 h (une fois tous les 7 jours) */
   if(tok()&&!offre()&&!recent("alex_achat",24*3600*1000)&&!recent("alex_verif_retour",3600*1000)){localStorage.setItem("alex_verif_retour",String(Date.now()));
-    get("flash","retour").then(function(o){if(o&&o.type==="flash"&&!recent("alex_pop_flash",3600*1000)){localStorage.setItem("alex_pop_flash",String(Date.now()));
-      popup("Content de te revoir ! On t’offre -"+o.pourcentage+" %","Cadeau de retour valable 4 heures, appliquée automatiquement à ton paiement. Passé ce délai, le prix normal s’applique.","Voir les compétences",function(){if(!/^\/ventes\//.test(P))location.href="/#catalogue"})}})}
+    get("flash","retour").then(function(o){if(o&&(o.type==="flash"||o.type==="fidele")&&!recent("alex_pop_flash",7*86400000)){localStorage.setItem("alex_pop_flash",String(Date.now()));
+      popup("Content de te revoir ! On t’offre -"+o.pourcentage+" %","Cadeau de retour valable "+dureeTxt(o)+", appliqué automatiquement à ton paiement. Passé ce délai, le prix normal s’applique.","Voir les compétences",function(){if(!/^\/ventes\//.test(P))location.href="/#catalogue"})}})}
   /* retour après un clic sur « Payer » sans achat */
   if(tok()&&aCliquePaiement&&!recent("alex_achat",24*3600*1000)){setTimeout(function(){proposerConnecte("retour")},4000)}
   /* visiteur non connecté qui regarde 3 produits : on lui propose le compte + -10 % */
