@@ -22,7 +22,7 @@ h2{font:800 clamp(1.5rem,3.6vw,2.2rem)/1.15 'Plus Jakarta Sans',Inter,sans-serif
 .hero{display:grid;grid-template-columns:1fr 1.05fr;gap:40px;align-items:center}
 .badge{display:inline-block;background:color-mix(in srgb,var(--c) 22%,transparent);border:1px solid var(--c);padding:4px 12px;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.06em;margin-bottom:16px}
 .lead{color:#cfd5f2;font-size:1.12rem;margin:0 0 22px}
-.price{display:flex;gap:12px;align-items:baseline;margin:0 0 18px}.price b{font-size:2.5rem;line-height:1}.price s{opacity:.55;font-size:1.2rem}.price em{font-style:normal;font-size:.75rem;font-weight:800;letter-spacing:.08em;color:var(--c)}
+.price{display:flex;gap:12px;align-items:baseline;margin:0 0 18px}.price b{font-size:2.5rem;line-height:1}.price s{opacity:.55;font-size:1.2rem}.price{flex-wrap:wrap}.price .ref{flex-basis:100%;order:3;font-size:.92rem;line-height:1.4;color:#aab1d8;font-weight:500}.price em{font-style:normal;font-size:.75rem;font-weight:800;letter-spacing:.08em;color:var(--c)}
 .btn{display:inline-flex;align-items:center;gap:8px;background:var(--c);color:#fff;text-decoration:none;font-weight:800;padding:15px 28px;border-radius:14px;border:0;cursor:pointer;font-size:1.02rem;box-shadow:0 12px 34px -10px var(--c);transition:transform .2s,filter .2s}.btn:hover{filter:brightness(1.1);transform:translateY(-2px)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.chips span{font-size:.82rem;color:var(--mu);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:4px 12px}
 .heroimg{position:relative}.heroimg img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:20px;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 80px -25px var(--c)}
@@ -100,7 +100,7 @@ nav.l{margin-top:56px;display:flex;gap:18px;flex-wrap:wrap;font-size:.9rem}nav.l
 <header><a class="logo" href="/"><img src="../assets/logo-rond.png" alt="">ALEX IA</a><a class="back" href="../index.html#offres">← Toutes les compétences</a></header>
 
 <section class="hero" id="haut"><div><span class="badge">PRÉCOMMANDE · SORTIE LE 1er DÉCEMBRE · 20 H</span><h1>Pack Univers</h1><p class="lead">Accès aux 15 compétences et aux outils, avec TikTok Shop, trading et le premier mois du Cercle VIP offert.</p>
-<div class="price"><b>497 €</b><s>2 408 €</s><em>PRIX DE LANCEMENT</em></div><a class="btn" href="https://buy.stripe.com/fZubIU6X0grHdiZ2mR6EU0h" data-cta="hero">Réserver ma place · 497 €</a>
+<div class="price"><b>497 €</b><span class="ref">Achetées séparément, les compétences coûtent 2 408 € au total.</span><em>PRIX DE LANCEMENT</em></div><a class="btn" href="https://buy.stripe.com/fZubIU6X0grHdiZ2mR6EU0h" data-cta="hero">Réserver ma place · 497 €</a>
 <div class="chips"><span>Accès dans ton espace membre</span><span>Paiement sécurisé par Stripe</span></div></div>
 <div class="heroimg"><img src="../assets/pack-univers.jpg" alt="Pack Univers" onerror="this.remove()"></div></section>
 
@@ -118,7 +118,7 @@ nav.l{margin-top:56px;display:flex;gap:18px;flex-wrap:wrap;font-size:.9rem}nav.l
 <section class="sec" id="offre"><div class="offer rv" id="offerx"><div class="ob" aria-hidden="true"><video muted playsinline preload="none" poster="../videos/vip-table-0.jpg" data-src="../videos/vip-table.mp4" data-srcm="../videos/vip-table-m.mp4"></video></div><div class="ot"><span class="eyebrow">Précommande</span><h2>Ta place <em>t'attend.</em></h2><p style="color:#e3e7fb;margin:0">Réserve-la avant la sortie, le 1er décembre 2026 à 20 h (heure de Paris).</p>
 <div class="cd" id="cd" aria-label="Compte à rebours"><div><b id="cj">--</b><small>jours</small></div><div><b id="ch">--</b><small>heures</small></div><div><b id="cm">--</b><small>min</small></div><div><b id="cs">--</b><small>sec</small></div></div>
 <ul><li>Accès dans ton espace membre dès la sortie</li><li>Paiement sécurisé par Stripe</li><li>Une compétence qui t'appartient</li></ul></div>
-<div class="op"><div class="price"><b>497 €</b><s>2 408 €</s></div><a class="btn" href="https://buy.stripe.com/fZubIU6X0grHdiZ2mR6EU0h" data-cta="offre">Réserver ma place · 497 €</a><div class="sub2">Prix de lancement · utilise le même e-mail que ton compte</div></div></div>
+<div class="op"><div class="price"><b>497 €</b><span class="ref">Achetées séparément, les compétences coûtent 2 408 € au total.</span></div><a class="btn" href="https://buy.stripe.com/fZubIU6X0grHdiZ2mR6EU0h" data-cta="offre">Réserver ma place · 497 €</a><div class="sub2">Prix de lancement · utilise le même e-mail que ton compte</div></div></div>
 <nav class="l"><a href="/cgv">Conditions de vente</a><a href="/mentions-legales">Mentions légales</a><a href="/confidentialite">Confidentialité</a><a href="/#contact">Contact</a></nav></section>
 </div>
 <div class="sticky" id="sticky"><span>Pack Univers</span><b>497 €</b><a class="btn" href="https://buy.stripe.com/fZubIU6X0grHdiZ2mR6EU0h" data-cta="sticky">Réserver</a></div>
