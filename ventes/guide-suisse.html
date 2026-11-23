@@ -28,7 +28,7 @@ h2{font:800 clamp(1.5rem,3.6vw,2.2rem)/1.15 'Plus Jakarta Sans',Inter,sans-serif
 .heroimg{position:relative}.heroimg img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:20px;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 80px -25px var(--c)}
 /* galerie */
 .gal{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:16px;align-items:stretch}.gal>*{min-width:0}
-.stage{position:relative;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:#000;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 80px -30px var(--c)}
+.stage{position:relative;border-radius:20px;overflow:hidden;background:#000;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 80px -30px var(--c)}
 .stage .bgb{position:absolute;inset:-30px;background-size:cover;background-position:center;filter:blur(28px) brightness(.55);transition:background-image .3s}
 .stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent}
 .stage .cap2{position:absolute;left:0;right:0;bottom:0;padding:44px 18px 16px;background:linear-gradient(transparent,rgba(0,0,0,.78));display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
@@ -96,7 +96,7 @@ nav.l{margin-top:56px;display:flex;gap:18px;flex-wrap:wrap;font-size:.9rem}nav.l
 .legal{max-width:680px;margin:20px auto 0;text-align:center;color:var(--mu);font-size:.82rem}
 @media(max-width:900px){.steps{grid-template-columns:1fr}.stp.s1,.stp.s2,.stp.s3{min-height:0}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
-</style></head><body><div class="w">
+.stage{align-self:start}.stage:before{content:"";display:block;width:100%;padding-top:calc(100%/var(--ar,1.778))}</style></head><body><div class="w">
 <header><a class="logo" href="/"><img src="../assets/logo-rond.png" alt="">ALEX IA</a><a class="back" href="../index.html#offres">← Toutes les compétences</a></header>
 
 <section class="hero" id="haut"><div><span class="badge">PRÉCOMMANDE · SORTIE LE 1er DÉCEMBRE · 20 H</span><h1>Suisse : le guide complet</h1><p class="lead">Les démarches, l&#x27;emploi et le logement expliqués par un retour d&#x27;expérience.</p>
